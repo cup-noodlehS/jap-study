@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minna no Nihongo · Lessons 4–6 Study Guide</title>
+<title>日本語 · Study Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700;800&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --paper: #f4ede0;
@@ -22,24 +22,10 @@
     --teal: #3a7a7a;
     --gold: #c79728;
     --rule: #d9ccb0;
-
-    /* particle colors */
-    --p-wa: #c54e3a;       /* は - vermillion */
-    --p-o: #8a4a6b;        /* を - plum */
-    --p-ni: #3a7a7a;       /* に - teal */
-    --p-e: #b8893d;        /* へ - ochre */
-    --p-de: #6b8068;       /* で - sage */
-    --p-to: #c79728;       /* と - gold */
-    --p-kara: #5a6fa8;     /* から - indigo */
-    --p-made: #5a6fa8;     /* まで - indigo */
-    --p-ga: #a85a8a;       /* が - rose */
-    --p-no: #7a6a4a;       /* の - bronze */
-    --p-mo: #4a8a5a;       /* も - forest */
-    --p-ka: #c54e3a;       /* か - vermillion */
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Manrope', sans-serif;
     background: var(--paper);
@@ -50,1506 +36,208 @@
       radial-gradient(circle at 20% 30%, rgba(197, 78, 58, 0.04) 0%, transparent 40%),
       radial-gradient(circle at 80% 70%, rgba(58, 122, 122, 0.04) 0%, transparent 40%);
     min-height: 100vh;
-  }
-
-  /* paper texture */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(26, 46, 68, 0.012) 2px, rgba(26, 46, 68, 0.012) 3px);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* ============ HEADER ============ */
-  .hero {
-    position: relative;
-    padding: 80px 24px 60px;
-    text-align: center;
-    border-bottom: 1px solid var(--rule);
-    background: linear-gradient(180deg, var(--paper-deep) 0%, var(--paper) 100%);
-    z-index: 2;
-  }
-  .hero-stamp {
-    display: inline-block;
-    margin-bottom: 24px;
-    padding: 10px 18px;
-    background: var(--vermillion);
-    color: var(--paper);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    transform: rotate(-2deg);
-    box-shadow: 3px 3px 0 rgba(26, 46, 68, 0.15);
-  }
-  .hero h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-  }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--vermillion);
-    font-weight: 300;
-  }
-  .hero p {
-    color: var(--ink-mute);
-    font-size: 1.05rem;
-    max-width: 560px;
-    margin: 0 auto;
-  }
-  .hero-meta {
-    margin-top: 28px;
     display: flex;
-    gap: 32px;
-    justify-content: center;
-    flex-wrap: wrap;
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-  }
-  .hero-meta span { display: flex; align-items: center; gap: 8px; }
-  .hero-meta span::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--vermillion);
-    border-radius: 50%;
+    flex-direction: column;
   }
 
-  /* ============ NAV ============ */
-  nav.chapter-nav {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(244, 237, 224, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--rule);
-    padding: 14px 24px;
-  }
-  .nav-inner {
-    max-width: 1100px;
+  .wrap {
+    max-width: 980px;
     margin: 0 auto;
+    padding: 80px 32px 60px;
+    width: 100%;
+    flex: 1;
     display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
-  .nav-inner a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 6px;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-  }
-  .nav-inner a:hover {
-    color: var(--ink);
-    background: var(--paper-deep);
-    border-color: var(--rule);
-  }
-  .nav-inner a.active {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .nav-inner .sep { color: var(--rule); }
-
-  /* ============ MAIN ============ */
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 60px 24px;
-    position: relative;
-    z-index: 2;
+    flex-direction: column;
   }
 
-  /* ============ CHAPTER ============ */
-  .chapter {
-    margin-bottom: 100px;
-    scroll-margin-top: 90px;
-  }
-  .chapter-header {
+  .brand {
     display: flex;
     align-items: baseline;
-    gap: 24px;
+    gap: 16px;
     margin-bottom: 8px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid var(--ink);
   }
-  .chapter-num {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-weight: 300;
-    font-size: 1.1rem;
-    color: var(--vermillion);
-    letter-spacing: 0.1em;
-  }
-  .chapter-title {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 2.4rem;
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .chapter-theme {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    color: var(--ink-mute);
-    font-size: 1.05rem;
-    margin-bottom: 48px;
-    padding-left: 4px;
-  }
-
-  /* ============ SECTION HEADINGS ============ */
-  .section-label {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--vermillion);
-    margin-bottom: 12px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid var(--vermillion);
-  }
-  h3.section-h {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.6rem;
-    margin-bottom: 24px;
-    letter-spacing: -0.01em;
-  }
-  .subsection {
-    margin: 56px 0 32px;
-  }
-
-  /* ============ VOCAB ============ */
-  .vocab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    margin-bottom: 32px;
-  }
-  .vocab-card {
-    background: rgba(255, 253, 247, 0.6);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 20px 22px;
-  }
-  .vocab-card h4 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-mute);
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px dashed var(--rule);
-  }
-  .vocab-list { list-style: none; }
-  .vocab-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 6px 0;
-    gap: 12px;
-    border-bottom: 1px dotted rgba(217, 204, 176, 0.5);
-  }
-  .vocab-list li:last-child { border-bottom: none; }
-  .vocab-jp {
+  .brand .kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 44px;
     font-weight: 600;
-    color: var(--ink);
-    font-size: 0.98rem;
-  }
-  .vocab-en {
-    color: var(--ink-mute);
-    font-size: 0.88rem;
-    text-align: right;
-    font-style: italic;
-  }
-
-  /* ============ PARTICLES ============ */
-  .particle {
-    display: inline-block;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 3px;
-    color: white;
-    font-size: 0.92em;
-    margin: 0 1px;
-  }
-  .p-wa { background: var(--p-wa); }
-  .p-o { background: var(--p-o); }
-  .p-ni { background: var(--p-ni); }
-  .p-e { background: var(--p-e); }
-  .p-de { background: var(--p-de); }
-  .p-to { background: var(--p-to); }
-  .p-kara { background: var(--p-kara); }
-  .p-made { background: var(--p-made); }
-  .p-ga { background: var(--p-ga); }
-  .p-no { background: var(--p-no); }
-  .p-mo { background: var(--p-mo); }
-  .p-ka { background: var(--p-ka); }
-
-  /* ============ GRAMMAR ============ */
-  .grammar-card {
-    background: #fff9eb;
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--vermillion);
-    border-radius: 6px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-    position: relative;
-  }
-  .grammar-card.kind-time { border-left-color: var(--teal); }
-  .grammar-card.kind-place { border-left-color: var(--ochre); }
-  .grammar-card.kind-action { border-left-color: var(--sage); }
-  .grammar-card.kind-invite { border-left-color: var(--plum); }
-  .grammar-card.kind-conjugation { border-left-color: var(--gold); }
-
-  .grammar-num {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: 2.4rem;
-    color: var(--rule);
-    line-height: 1;
-    user-select: none;
-  }
-  .grammar-title {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.25rem;
-    margin-bottom: 8px;
-    padding-right: 50px;
-  }
-  .grammar-desc {
-    color: var(--ink-soft);
-    margin-bottom: 18px;
-    font-size: 0.95rem;
-  }
-  .pattern {
-    display: inline-block;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.92rem;
-    padding: 10px 16px;
-    border-radius: 4px;
-    margin-bottom: 18px;
+    color: var(--vermillion);
     letter-spacing: 0.02em;
   }
-  .pattern .slot {
-    color: #ffd97a;
-    font-style: italic;
+  .brand .romaji {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink-mute);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
 
-  /* ============ EXAMPLES ============ */
-  .examples { margin-top: 8px; }
-  .ex {
-    padding: 12px 0;
-    border-top: 1px dashed var(--rule);
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .ex:hover { background: rgba(255, 217, 122, 0.15); }
-  .ex-jp {
-    font-size: 1.02rem;
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 500;
     color: var(--ink);
-    margin-bottom: 4px;
+    line-height: 1.1;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
   }
-  .ex-en {
-    color: var(--ink-mute);
-    font-size: 0.88rem;
+  h1 em {
     font-style: italic;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.25s ease, opacity 0.25s ease, margin-top 0.25s ease;
-  }
-  .ex.open .ex-en {
-    max-height: 60px;
-    opacity: 1;
-    margin-top: 4px;
-  }
-  .ex-toggle-hint {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--ink-mute);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    opacity: 0.5;
-  }
-  .ex.open .ex-toggle-hint { opacity: 0; }
-
-  /* ============ VERB TABLE ============ */
-  .verb-table {
-    background: rgba(255, 253, 247, 0.7);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 20px 0;
-  }
-  .verb-table table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .verb-table th, .verb-table td {
-    padding: 12px 18px;
-    text-align: left;
-    border-bottom: 1px solid var(--rule);
-    font-size: 0.92rem;
-  }
-  .verb-table th {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-  .verb-table td:first-child {
-    font-weight: 600;
     color: var(--vermillion);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-  }
-  .verb-table tr:last-child td { border-bottom: none; }
-  .verb-table tr:nth-child(even) td { background: rgba(235, 225, 206, 0.3); }
-
-  /* ============ PARTICLE CHEAT SHEET ============ */
-  .cheatsheet {
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 12px;
-    padding: 48px;
-    margin: 80px 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .cheatsheet::before {
-    content: '';
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, var(--vermillion) 0%, transparent 70%);
-    opacity: 0.15;
-  }
-  .cheatsheet .section-label {
-    color: var(--vermillion-soft);
-    border-color: var(--vermillion-soft);
-  }
-  .cheatsheet h3 {
-    font-family: 'Fraunces', serif;
     font-weight: 400;
-    font-size: 2rem;
-    color: var(--paper);
-    margin-bottom: 32px;
-  }
-  .particle-row {
-    display: grid;
-    grid-template-columns: 80px 1fr 1.5fr;
-    gap: 24px;
-    padding: 18px 0;
-    border-bottom: 1px solid rgba(244, 237, 224, 0.15);
-    align-items: start;
-  }
-  .particle-row:last-child { border-bottom: none; }
-  .particle-row .p-display {
-    font-family: 'Fraunces', serif;
-    font-size: 2rem;
-    font-weight: 500;
-    color: white;
-    text-align: center;
-    padding: 6px;
-    border-radius: 4px;
-    line-height: 1;
-  }
-  .particle-row .p-role {
-    font-weight: 600;
-    color: var(--paper);
-    font-size: 0.95rem;
-  }
-  .particle-row .p-role small {
-    display: block;
-    color: rgba(244, 237, 224, 0.6);
-    font-weight: 400;
-    font-style: italic;
-    margin-top: 2px;
-    font-size: 0.82rem;
-  }
-  .particle-row .p-ex {
-    color: rgba(244, 237, 224, 0.85);
-    font-size: 0.9rem;
-    font-family: 'JetBrains Mono', monospace;
   }
 
-  /* ============ QUIZ ============ */
-  .quiz {
-    background: linear-gradient(135deg, #fff9eb 0%, #f4ede0 100%);
-    border: 2px solid var(--ink);
-    border-radius: 12px;
-    padding: 48px;
-    margin: 60px 0;
-  }
-  .quiz h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 2rem;
-    margin-bottom: 8px;
-  }
-  .quiz > p {
-    color: var(--ink-mute);
-    margin-bottom: 32px;
-  }
-  .q-item {
-    margin: 24px 0;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-    border-left: 3px solid var(--vermillion);
-  }
-  .q-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--vermillion);
-    letter-spacing: 0.15em;
-    margin-bottom: 8px;
-  }
-  .q-prompt {
-    font-size: 1.02rem;
-    margin-bottom: 12px;
-  }
-  .q-prompt code {
-    font-family: 'JetBrains Mono', monospace;
-    background: var(--paper-deep);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.92em;
-  }
-  .q-blank {
-    display: inline-block;
-    min-width: 50px;
-    border-bottom: 2px solid var(--vermillion);
-    text-align: center;
-    color: var(--vermillion);
-    font-weight: 600;
-    padding: 0 4px;
-  }
-  .q-reveal {
-    background: var(--ink);
-    color: var(--paper);
-    border: none;
-    padding: 8px 18px;
-    border-radius: 4px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .q-reveal:hover { background: var(--vermillion); }
-  .q-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, margin-top 0.3s ease;
-    color: var(--sage);
-    font-weight: 600;
-  }
-  .q-answer.show {
-    max-height: 100px;
-    margin-top: 14px;
-  }
-  .q-answer span {
-    background: rgba(107, 128, 104, 0.15);
-    padding: 6px 12px;
-    border-radius: 4px;
-    display: inline-block;
-  }
-
-  /* ============ TIPS ============ */
-  .tips {
-    background: rgba(255, 253, 247, 0.6);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 32px 40px;
-    margin: 40px 0;
-  }
-  .tips h4 {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 1.3rem;
-    color: var(--vermillion);
-    margin-bottom: 16px;
-  }
-  .tips ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  .tips li {
-    padding: 6px 0 6px 24px;
-    position: relative;
+  .lede {
+    font-size: 18px;
     color: var(--ink-soft);
-    font-size: 0.95rem;
-  }
-  .tips li::before {
-    content: '◆';
-    position: absolute;
-    left: 0;
-    color: var(--vermillion);
-    font-size: 0.7rem;
-    top: 12px;
+    max-width: 620px;
+    margin-bottom: 56px;
+    line-height: 1.6;
   }
 
-  /* ============ TIME REFERENCE ============ */
-  .time-ref {
+  .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 12px;
-    margin: 24px 0;
-  }
-  .time-ref .t-card {
-    background: rgba(255, 253, 247, 0.7);
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    padding: 14px;
-    text-align: center;
-  }
-  .time-ref .t-num {
-    font-family: 'Fraunces', serif;
-    font-weight: 600;
-    font-size: 1.4rem;
-    color: var(--vermillion);
-    margin-bottom: 4px;
-  }
-  .time-ref .t-jp {
-    font-weight: 600;
-    color: var(--ink);
-    font-size: 0.95rem;
-  }
-  .time-ref .t-en {
-    color: var(--ink-mute);
-    font-size: 0.78rem;
-    font-style: italic;
-    margin-top: 2px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
   }
 
-  /* ============ FOOTER ============ */
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 36px 32px 32px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-left: 3px solid var(--accent, var(--vermillion));
+    pointer-events: none;
+    opacity: 0.85;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent, var(--vermillion));
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .card .kana {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 68px;
+    font-weight: 500;
+    color: var(--accent, var(--vermillion));
+    line-height: 1;
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+  .card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+  }
+  .card .sub {
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    font-weight: 500;
+  }
+  .card p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .card .arrow {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent, var(--vermillion));
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.02em;
+  }
+  .card .arrow::after {
+    content: "→";
+    transition: transform 0.25s ease;
+    font-size: 18px;
+  }
+  .card:hover .arrow::after {
+    transform: translateX(4px);
+  }
+
+  .card.lessons { --accent: var(--vermillion); }
+  .card.hiragana { --accent: var(--teal); }
+
   footer {
-    text-align: center;
-    padding: 60px 24px;
+    margin-top: auto;
+    padding-top: 32px;
     border-top: 1px solid var(--rule);
     color: var(--ink-mute);
-    font-size: 0.85rem;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-  footer em { font-style: italic; color: var(--vermillion); }
-
-  /* ============ HIGHLIGHT ============ */
-  .hl {
-    background: linear-gradient(180deg, transparent 60%, rgba(255, 217, 122, 0.5) 60%);
-    padding: 0 2px;
-  }
-  .verb-highlight {
-    color: var(--sage);
-    font-weight: 600;
-  }
-  .place-highlight {
-    color: var(--ochre);
-    font-weight: 600;
-  }
-  .time-highlight {
-    color: var(--teal);
-    font-weight: 600;
-  }
-  .obj-highlight {
-    color: var(--plum);
-    font-weight: 600;
+  footer .stamp {
+    font-family: 'Noto Serif JP', serif;
+    color: var(--vermillion);
+    font-size: 16px;
   }
 
-  /* ============ RESPONSIVE ============ */
   @media (max-width: 640px) {
-    .hero { padding: 50px 20px 40px; }
-    main { padding: 40px 20px; }
-    .chapter-title { font-size: 1.8rem; }
-    .chapter-header { flex-direction: column; gap: 4px; }
-    .grammar-card { padding: 22px 20px; }
-    .grammar-num { font-size: 1.8rem; top: 14px; right: 16px; }
-    .cheatsheet { padding: 32px 24px; }
-    .particle-row {
-      grid-template-columns: 50px 1fr;
-      gap: 16px;
-    }
-    .particle-row .p-ex { grid-column: 1 / -1; }
-    .quiz { padding: 32px 24px; }
+    .wrap { padding: 48px 22px 40px; }
+    .card { padding: 28px 24px 24px; }
+    .card .kana { font-size: 56px; margin-bottom: 22px; }
   }
 </style>
 </head>
 <body>
+  <div class="wrap">
+    <div class="brand">
+      <span class="kanji">日本語</span>
+      <span class="romaji">Nihongo · Study Hub</span>
+    </div>
+    <h1>A small library for <em>steady</em> Japanese practice.</h1>
+    <p class="lede">Two study tools, kept simple. Pick where you want to spend the next twenty minutes.</p>
 
-<header class="hero">
-  <div class="hero-stamp">Minna no Nihongo · 2nd Ed.</div>
-  <h1>Lessons 4 — 6<br><em>Time, Travel &amp; Action</em></h1>
-  <p>A study companion for the romanized edition. Master your daily routines, where you're going, and what you're doing.</p>
-  <div class="hero-meta">
-    <span>~60 vocabulary words</span>
-    <span>13 grammar patterns</span>
-    <span>10 particles in context</span>
+    <div class="grid">
+      <a class="card lessons" href="lessons.html">
+        <div class="kana">本</div>
+        <div class="sub">Minna no Nihongo</div>
+        <h2>Lessons 4–6 Study Guide</h2>
+        <p>Vocabulary, grammar patterns, and particle drills for Minna no Nihongo lessons four through six.</p>
+        <span class="arrow">Open guide</span>
+      </a>
+
+      <a class="card hiragana" href="hiragana.html">
+        <div class="kana">あ</div>
+        <div class="sub">Kana &amp; Flashcards</div>
+        <h2>Hiragana Practice</h2>
+        <p>The full hiragana chart with row-by-row colors, plus flashcard drills for recognition and recall.</p>
+        <span class="arrow">Start practice</span>
+      </a>
+    </div>
+
+    <footer>
+      <span>がんばって · keep going</span>
+      <span class="stamp">勉</span>
+    </footer>
   </div>
-</header>
-
-<nav class="chapter-nav">
-  <div class="nav-inner">
-    <a href="#lesson4" class="nav-link">Lesson 4 · Time</a>
-    <span class="sep">·</span>
-    <a href="#lesson5" class="nav-link">Lesson 5 · Going Places</a>
-    <span class="sep">·</span>
-    <a href="#lesson6" class="nav-link">Lesson 6 · Action</a>
-    <span class="sep">·</span>
-    <a href="#particles" class="nav-link">Particle Cheat Sheet</a>
-    <span class="sep">·</span>
-    <a href="#quiz" class="nav-link">Self-Quiz</a>
-  </div>
-</nav>
-
-<main>
-
-<!-- ==================== LESSON 4 ==================== -->
-<section class="chapter" id="lesson4">
-  <div class="chapter-header">
-    <span class="chapter-num">Dai 4 ka</span>
-    <h2 class="chapter-title">Time &amp; Daily Routines</h2>
-  </div>
-  <p class="chapter-theme">Telling time, talking about days, and saying what you do — and when.</p>
-
-  <!-- VOCAB -->
-  <div class="section-label">Vocabulary</div>
-  <h3 class="section-h">Words to know</h3>
-  <div class="vocab-grid">
-
-    <div class="vocab-card">
-      <h4>Verbs (action)</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">okimasu</span><span class="vocab-en">to get up</span></li>
-        <li><span class="vocab-jp">nemasu</span><span class="vocab-en">to sleep</span></li>
-        <li><span class="vocab-jp">hatarakimasu</span><span class="vocab-en">to work</span></li>
-        <li><span class="vocab-jp">yasumimasu</span><span class="vocab-en">to rest, to be off</span></li>
-        <li><span class="vocab-jp">benkyou shimasu</span><span class="vocab-en">to study</span></li>
-        <li><span class="vocab-jp">owarimasu</span><span class="vocab-en">to end / finish</span></li>
-        <li><span class="vocab-jp">hajimarimasu</span><span class="vocab-en">to begin / start</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Time (parts of day)</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">ima</span><span class="vocab-en">now</span></li>
-        <li><span class="vocab-jp">~ji</span><span class="vocab-en">~ o'clock</span></li>
-        <li><span class="vocab-jp">~fun / ~pun</span><span class="vocab-en">~ minute(s)</span></li>
-        <li><span class="vocab-jp">han</span><span class="vocab-en">half (past)</span></li>
-        <li><span class="vocab-jp">gozen</span><span class="vocab-en">a.m.</span></li>
-        <li><span class="vocab-jp">gogo</span><span class="vocab-en">p.m.</span></li>
-        <li><span class="vocab-jp">asa</span><span class="vocab-en">morning</span></li>
-        <li><span class="vocab-jp">hiru</span><span class="vocab-en">noon / daytime</span></li>
-        <li><span class="vocab-jp">ban / yoru</span><span class="vocab-en">evening / night</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Days &amp; relative time</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">ototoi</span><span class="vocab-en">day before yesterday</span></li>
-        <li><span class="vocab-jp">kinou</span><span class="vocab-en">yesterday</span></li>
-        <li><span class="vocab-jp">kyou</span><span class="vocab-en">today</span></li>
-        <li><span class="vocab-jp">ashita</span><span class="vocab-en">tomorrow</span></li>
-        <li><span class="vocab-jp">asatte</span><span class="vocab-en">day after tomorrow</span></li>
-        <li><span class="vocab-jp">kesa</span><span class="vocab-en">this morning</span></li>
-        <li><span class="vocab-jp">konban</span><span class="vocab-en">tonight</span></li>
-        <li><span class="vocab-jp">yasumi</span><span class="vocab-en">rest / holiday</span></li>
-        <li><span class="vocab-jp">hiruyasumi</span><span class="vocab-en">lunch break</span></li>
-        <li><span class="vocab-jp">maiasa</span><span class="vocab-en">every morning</span></li>
-        <li><span class="vocab-jp">maiban</span><span class="vocab-en">every evening</span></li>
-        <li><span class="vocab-jp">mainichi</span><span class="vocab-en">every day</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Days of the week</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">getsuyoubi</span><span class="vocab-en">Monday</span></li>
-        <li><span class="vocab-jp">kayoubi</span><span class="vocab-en">Tuesday</span></li>
-        <li><span class="vocab-jp">suiyoubi</span><span class="vocab-en">Wednesday</span></li>
-        <li><span class="vocab-jp">mokuyoubi</span><span class="vocab-en">Thursday</span></li>
-        <li><span class="vocab-jp">kinyoubi</span><span class="vocab-en">Friday</span></li>
-        <li><span class="vocab-jp">doyoubi</span><span class="vocab-en">Saturday</span></li>
-        <li><span class="vocab-jp">nichiyoubi</span><span class="vocab-en">Sunday</span></li>
-        <li><span class="vocab-jp">nanyoubi</span><span class="vocab-en">what day of the week</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Places</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">depaato</span><span class="vocab-en">department store</span></li>
-        <li><span class="vocab-jp">ginkou</span><span class="vocab-en">bank</span></li>
-        <li><span class="vocab-jp">yuubinkyoku</span><span class="vocab-en">post office</span></li>
-        <li><span class="vocab-jp">toshokan</span><span class="vocab-en">library</span></li>
-        <li><span class="vocab-jp">bijutsukan</span><span class="vocab-en">art museum</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Question words</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">nanji</span><span class="vocab-en">what time</span></li>
-        <li><span class="vocab-jp">nanpun</span><span class="vocab-en">what minute</span></li>
-        <li><span class="vocab-jp">nanji kara</span><span class="vocab-en">from what time</span></li>
-        <li><span class="vocab-jp">nanji made</span><span class="vocab-en">until what time</span></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- TIME PRONUNCIATION QUIRKS -->
-  <div class="tips">
-    <h4>Pronunciation quirks for time (worth memorizing)</h4>
-    <ul>
-      <li><strong>4 o'clock = yoji</strong> (not <em>shiji</em>)</li>
-      <li><strong>7 o'clock = shichiji</strong> (not <em>nanaji</em>)</li>
-      <li><strong>9 o'clock = kuji</strong> (not <em>kyuuji</em>)</li>
-      <li>Minutes: <strong>1, 3, 4, 6, 8, 10</strong> become <strong>~pun</strong> → <em>ippun, sanpun, yonpun, roppun, happun/hachifun, juppun</em></li>
-      <li>Minutes: <strong>2, 5, 7, 9</strong> use <strong>~fun</strong> → <em>nifun, gofun, nanafun, kyuufun</em></li>
-    </ul>
-  </div>
-
-  <!-- GRAMMAR -->
-  <div class="subsection">
-    <div class="section-label">Grammar</div>
-    <h3 class="section-h">Patterns to master</h3>
-
-    <div class="grammar-card kind-time">
-      <div class="grammar-num">1</div>
-      <div class="grammar-title">Telling the time</div>
-      <p class="grammar-desc">Use <strong>ima</strong> (now) + the time + <strong>desu</strong>.</p>
-      <div class="pattern">Ima <span class="slot">~ji ~fun</span> desu.</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Ima <span class="time-highlight">shichiji jippun</span> desu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">It's 7:10 now.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Ima <span class="time-highlight">gogo sanji han</span> desu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">It's 3:30 p.m. now.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-conjugation">
-      <div class="grammar-num">2</div>
-      <div class="grammar-title">The four forms of -masu verbs</div>
-      <p class="grammar-desc">Every -masu verb has four basic forms: present/future affirmative and negative, and past affirmative and negative. This is the engine of basic Japanese.</p>
-      <div class="verb-table">
-        <table>
-          <thead>
-            <tr><th>Form</th><th>Ending</th><th>Example (okimasu — to get up)</th><th>Meaning</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Present +</td><td>-masu</td><td>okimasu</td><td>get up / will get up</td></tr>
-            <tr><td>Present −</td><td>-masen</td><td>okimasen</td><td>don't get up / won't get up</td></tr>
-            <tr><td>Past +</td><td>-mashita</td><td>okimashita</td><td>got up</td></tr>
-            <tr><td>Past −</td><td>-masen deshita</td><td>okimasen deshita</td><td>didn't get up</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-time">
-      <div class="grammar-num">3</div>
-      <div class="grammar-title">Doing something at a specific time</div>
-      <p class="grammar-desc">Numerical/clock times take the particle <span class="particle p-ni">ni</span>. Relative time words (kyou, ashita, kesa, maiasa…) do <strong>NOT</strong> take ni.</p>
-      <div class="pattern"><span class="slot">Time</span> <span class="particle p-ni">ni</span> <span class="slot">Verb</span>-masu</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Watashi wa <span class="time-highlight">rokuji</span> <span class="particle p-ni">ni</span> <span class="verb-highlight">okimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I get up at 6 o'clock.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Kyou <span class="verb-highlight">benkyou shimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll study today. (No "ni" — "kyou" is relative.)</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="time-highlight">Nichiyoubi</span> <span class="particle p-ni">ni</span> tomodachi to aimasu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll meet a friend on Sunday. (Days of the week can take ni, optionally.)</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-time">
-      <div class="grammar-num">4</div>
-      <div class="grammar-title">From X to Y</div>
-      <p class="grammar-desc">Mark a starting point with <span class="particle p-kara">kara</span> and an end point with <span class="particle p-made">made</span>. Works for time, dates, and places.</p>
-      <div class="pattern"><span class="slot">N1</span> <span class="particle p-kara">kara</span> <span class="slot">N2</span> <span class="particle p-made">made</span></div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Ginkou wa <span class="time-highlight">kuji</span> <span class="particle p-kara">kara</span> <span class="time-highlight">sanji</span> <span class="particle p-made">made</span> desu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">The bank is open from 9 to 3.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Mainichi <span class="time-highlight">kuji</span> <span class="particle p-kara">kara</span> <span class="time-highlight">gogo rokuji</span> <span class="particle p-made">made</span> <span class="verb-highlight">hatarakimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I work from 9 to 6 every day.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-action">
-      <div class="grammar-num">5</div>
-      <div class="grammar-title">N1 and N2 (exhaustive list)</div>
-      <p class="grammar-desc">Use <span class="particle p-to">to</span> to connect two (or more) nouns — like English "and" between things. Used when listing items, not actions.</p>
-      <div class="pattern"><span class="slot">N1</span> <span class="particle p-to">to</span> <span class="slot">N2</span></div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Ginkou no yasumi wa <span class="hl">doyoubi <span class="particle p-to">to</span> nichiyoubi</span> desu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">The bank is closed on Saturday and Sunday.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-time">
-      <div class="grammar-num">6</div>
-      <div class="grammar-title">Soudesu ka (Acknowledgment)</div>
-      <p class="grammar-desc">A polite "Oh, I see." or "Is that so?" used as a backchannel response when someone tells you something new. Not a real question.</p>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">A: Ashita yasumi desu. / B: Soudesu ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">A: Tomorrow is a holiday. / B: Oh, is that so.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== LESSON 5 ==================== -->
-<section class="chapter" id="lesson5">
-  <div class="chapter-header">
-    <span class="chapter-num">Dai 5 ka</span>
-    <h2 class="chapter-title">Going Places</h2>
-  </div>
-  <p class="chapter-theme">How to talk about coming, going, and returning — by what means, with whom, and when.</p>
-
-  <div class="section-label">Vocabulary</div>
-  <h3 class="section-h">Words to know</h3>
-  <div class="vocab-grid">
-
-    <div class="vocab-card">
-      <h4>Motion verbs</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">ikimasu</span><span class="vocab-en">to go</span></li>
-        <li><span class="vocab-jp">kimasu</span><span class="vocab-en">to come</span></li>
-        <li><span class="vocab-jp">kaerimasu</span><span class="vocab-en">to return / go home</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Transportation</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">densha</span><span class="vocab-en">train</span></li>
-        <li><span class="vocab-jp">shinkansen</span><span class="vocab-en">bullet train</span></li>
-        <li><span class="vocab-jp">chikatetsu</span><span class="vocab-en">subway</span></li>
-        <li><span class="vocab-jp">basu</span><span class="vocab-en">bus</span></li>
-        <li><span class="vocab-jp">takushii</span><span class="vocab-en">taxi</span></li>
-        <li><span class="vocab-jp">jitensha</span><span class="vocab-en">bicycle</span></li>
-        <li><span class="vocab-jp">hikouki</span><span class="vocab-en">airplane</span></li>
-        <li><span class="vocab-jp">fune</span><span class="vocab-en">ship / boat</span></li>
-        <li><span class="vocab-jp">aruite</span><span class="vocab-en">on foot</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>People</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">hito</span><span class="vocab-en">person</span></li>
-        <li><span class="vocab-jp">tomodachi</span><span class="vocab-en">friend</span></li>
-        <li><span class="vocab-jp">kare</span><span class="vocab-en">he / boyfriend</span></li>
-        <li><span class="vocab-jp">kanojo</span><span class="vocab-en">she / girlfriend</span></li>
-        <li><span class="vocab-jp">kazoku</span><span class="vocab-en">family</span></li>
-        <li><span class="vocab-jp">hitori de</span><span class="vocab-en">alone</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Places</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">gakkou</span><span class="vocab-en">school</span></li>
-        <li><span class="vocab-jp">suupaa</span><span class="vocab-en">supermarket</span></li>
-        <li><span class="vocab-jp">eki</span><span class="vocab-en">station</span></li>
-        <li><span class="vocab-jp">kuni</span><span class="vocab-en">country</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Weeks, months, years</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">senshuu</span><span class="vocab-en">last week</span></li>
-        <li><span class="vocab-jp">konshuu</span><span class="vocab-en">this week</span></li>
-        <li><span class="vocab-jp">raishuu</span><span class="vocab-en">next week</span></li>
-        <li><span class="vocab-jp">sengetsu</span><span class="vocab-en">last month</span></li>
-        <li><span class="vocab-jp">kongetsu</span><span class="vocab-en">this month</span></li>
-        <li><span class="vocab-jp">raigetsu</span><span class="vocab-en">next month</span></li>
-        <li><span class="vocab-jp">kyonen</span><span class="vocab-en">last year</span></li>
-        <li><span class="vocab-jp">kotoshi</span><span class="vocab-en">this year</span></li>
-        <li><span class="vocab-jp">rainen</span><span class="vocab-en">next year</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Question words &amp; dates</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">itsu</span><span class="vocab-en">when</span></li>
-        <li><span class="vocab-jp">nan de</span><span class="vocab-en">by what means / how</span></li>
-        <li><span class="vocab-jp">dare to</span><span class="vocab-en">with whom</span></li>
-        <li><span class="vocab-jp">~nen</span><span class="vocab-en">~ year</span></li>
-        <li><span class="vocab-jp">~gatsu</span><span class="vocab-en">~ month (name)</span></li>
-        <li><span class="vocab-jp">~nichi</span><span class="vocab-en">~ day of month</span></li>
-        <li><span class="vocab-jp">tanjoubi</span><span class="vocab-en">birthday</span></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- GRAMMAR -->
-  <div class="subsection">
-    <div class="section-label">Grammar</div>
-    <h3 class="section-h">Patterns to master</h3>
-
-    <div class="grammar-card kind-place">
-      <div class="grammar-num">1</div>
-      <div class="grammar-title">Going / coming / returning to a place</div>
-      <p class="grammar-desc">For movement to a place, mark the destination with <span class="particle p-e">e</span> (written へ, pronounced "e"). Used only with motion verbs: <em>ikimasu, kimasu, kaerimasu</em>.</p>
-      <div class="pattern"><span class="slot">Place</span> <span class="particle p-e">e</span> ikimasu / kimasu / kaerimasu</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Watashi wa <span class="place-highlight">Kyouto</span> <span class="particle p-e">e</span> <span class="verb-highlight">ikimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'm going to Kyoto.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Ashita <span class="place-highlight">doko</span> <span class="particle p-e">e mo</span> <span class="verb-highlight">ikimasen</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">Tomorrow I'm not going anywhere. ("doko e mo" + negative = nowhere)</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Raishuu <span class="place-highlight">kuni</span> <span class="particle p-e">e</span> <span class="verb-highlight">kaerimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll return to my country next week.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-place">
-      <div class="grammar-num">2</div>
-      <div class="grammar-title">By what means of transportation</div>
-      <p class="grammar-desc">Use <span class="particle p-de">de</span> to mark the vehicle/tool you use. Exception: walking uses <strong>aruite</strong> (no particle).</p>
-      <div class="pattern"><span class="slot">Vehicle</span> <span class="particle p-de">de</span> ikimasu</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="hl">Densha</span> <span class="particle p-de">de</span> ikimasu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll go by train.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="hl">Aruite</span> kaerimasu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll walk home. (No "de" for walking!)</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Eki kara basu <span class="particle p-de">de</span> kimashita. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I came from the station by bus.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-action">
-      <div class="grammar-num">3</div>
-      <div class="grammar-title">Doing something with someone</div>
-      <p class="grammar-desc">Use <span class="particle p-to">to</span> to mark the person you do something with. For doing something alone, use <strong>hitori de</strong>.</p>
-      <div class="pattern"><span class="slot">Person</span> <span class="particle p-to">to</span> <span class="slot">Verb</span></div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="hl">Kazoku</span> <span class="particle p-to">to</span> Nihon e kimashita. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I came to Japan with my family.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="hl">Hitori de</span> Tokyo e ikimasu. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll go to Tokyo alone.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-time">
-      <div class="grammar-num">4</div>
-      <div class="grammar-title">When? — itsu</div>
-      <p class="grammar-desc"><strong>itsu</strong> means "when" and does NOT take <span class="particle p-ni">ni</span>. Use it like any other time word at the front of the question.</p>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Itsu Nihon e kimashita ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">When did you come to Japan?</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Tanjoubi wa itsu desu ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">When is your birthday?</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DATES REFERENCE -->
-  <div class="subsection">
-    <div class="section-label">Reference</div>
-    <h3 class="section-h">Months — irregulars in red</h3>
-    <div class="time-ref">
-      <div class="t-card"><div class="t-num">1月</div><div class="t-jp">ichigatsu</div><div class="t-en">January</div></div>
-      <div class="t-card"><div class="t-num">2月</div><div class="t-jp">nigatsu</div><div class="t-en">February</div></div>
-      <div class="t-card"><div class="t-num">3月</div><div class="t-jp">sangatsu</div><div class="t-en">March</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">4月</div><div class="t-jp" style="color: var(--vermillion);">shigatsu</div><div class="t-en">April (not "yongatsu")</div></div>
-      <div class="t-card"><div class="t-num">5月</div><div class="t-jp">gogatsu</div><div class="t-en">May</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">6月</div><div class="t-jp" style="color: var(--vermillion);">rokugatsu</div><div class="t-en">June</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">7月</div><div class="t-jp" style="color: var(--vermillion);">shichigatsu</div><div class="t-en">July (not "nanagatsu")</div></div>
-      <div class="t-card"><div class="t-num">8月</div><div class="t-jp">hachigatsu</div><div class="t-en">August</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">9月</div><div class="t-jp" style="color: var(--vermillion);">kugatsu</div><div class="t-en">Sept. (not "kyuugatsu")</div></div>
-      <div class="t-card"><div class="t-num">10月</div><div class="t-jp">juugatsu</div><div class="t-en">October</div></div>
-      <div class="t-card"><div class="t-num">11月</div><div class="t-jp">juuichigatsu</div><div class="t-en">November</div></div>
-      <div class="t-card"><div class="t-num">12月</div><div class="t-jp">juunigatsu</div><div class="t-en">December</div></div>
-    </div>
-
-    <h3 class="section-h" style="margin-top: 40px;">Days of the month — the first ten are irregular</h3>
-    <div class="time-ref">
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">1日</div><div class="t-jp" style="color: var(--vermillion);">tsuitachi</div><div class="t-en">1st</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">2日</div><div class="t-jp" style="color: var(--vermillion);">futsuka</div><div class="t-en">2nd</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">3日</div><div class="t-jp" style="color: var(--vermillion);">mikka</div><div class="t-en">3rd</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">4日</div><div class="t-jp" style="color: var(--vermillion);">yokka</div><div class="t-en">4th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">5日</div><div class="t-jp" style="color: var(--vermillion);">itsuka</div><div class="t-en">5th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">6日</div><div class="t-jp" style="color: var(--vermillion);">muika</div><div class="t-en">6th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">7日</div><div class="t-jp" style="color: var(--vermillion);">nanoka</div><div class="t-en">7th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">8日</div><div class="t-jp" style="color: var(--vermillion);">youka</div><div class="t-en">8th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">9日</div><div class="t-jp" style="color: var(--vermillion);">kokonoka</div><div class="t-en">9th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">10日</div><div class="t-jp" style="color: var(--vermillion);">tooka</div><div class="t-en">10th</div></div>
-      <div class="t-card"><div class="t-num">11+</div><div class="t-jp">~nichi</div><div class="t-en">e.g. juuichi-nichi</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">14日</div><div class="t-jp" style="color: var(--vermillion);">juuyokka</div><div class="t-en">14th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">20日</div><div class="t-jp" style="color: var(--vermillion);">hatsuka</div><div class="t-en">20th</div></div>
-      <div class="t-card" style="border-color: var(--vermillion);"><div class="t-num">24日</div><div class="t-jp" style="color: var(--vermillion);">nijuuyokka</div><div class="t-en">24th</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== LESSON 6 ==================== -->
-<section class="chapter" id="lesson6">
-  <div class="chapter-header">
-    <span class="chapter-num">Dai 6 ka</span>
-    <h2 class="chapter-title">Action &amp; Invitation</h2>
-  </div>
-  <p class="chapter-theme">Verbs that take objects, where you do them, and how to invite someone along.</p>
-
-  <div class="section-label">Vocabulary</div>
-  <h3 class="section-h">Words to know</h3>
-  <div class="vocab-grid">
-
-    <div class="vocab-card">
-      <h4>Action verbs (take object)</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">tabemasu</span><span class="vocab-en">to eat</span></li>
-        <li><span class="vocab-jp">nomimasu</span><span class="vocab-en">to drink</span></li>
-        <li><span class="vocab-jp">suimasu</span><span class="vocab-en">to smoke (tabako o ~)</span></li>
-        <li><span class="vocab-jp">mimasu</span><span class="vocab-en">to see / watch</span></li>
-        <li><span class="vocab-jp">kikimasu</span><span class="vocab-en">to listen / hear</span></li>
-        <li><span class="vocab-jp">yomimasu</span><span class="vocab-en">to read</span></li>
-        <li><span class="vocab-jp">kakimasu</span><span class="vocab-en">to write / draw</span></li>
-        <li><span class="vocab-jp">kaimasu</span><span class="vocab-en">to buy</span></li>
-        <li><span class="vocab-jp">torimasu</span><span class="vocab-en">to take (a photo)</span></li>
-        <li><span class="vocab-jp">shimasu</span><span class="vocab-en">to do</span></li>
-        <li><span class="vocab-jp">aimasu</span><span class="vocab-en">to meet</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Food &amp; drink</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">gohan</span><span class="vocab-en">rice / meal</span></li>
-        <li><span class="vocab-jp">asagohan</span><span class="vocab-en">breakfast</span></li>
-        <li><span class="vocab-jp">hirugohan</span><span class="vocab-en">lunch</span></li>
-        <li><span class="vocab-jp">bangohan</span><span class="vocab-en">dinner</span></li>
-        <li><span class="vocab-jp">pan</span><span class="vocab-en">bread</span></li>
-        <li><span class="vocab-jp">tamago</span><span class="vocab-en">egg</span></li>
-        <li><span class="vocab-jp">niku</span><span class="vocab-en">meat</span></li>
-        <li><span class="vocab-jp">sakana</span><span class="vocab-en">fish</span></li>
-        <li><span class="vocab-jp">yasai</span><span class="vocab-en">vegetable</span></li>
-        <li><span class="vocab-jp">kudamono</span><span class="vocab-en">fruit</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Drinks</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">mizu</span><span class="vocab-en">water</span></li>
-        <li><span class="vocab-jp">ocha</span><span class="vocab-en">green tea / tea</span></li>
-        <li><span class="vocab-jp">koucha</span><span class="vocab-en">black tea</span></li>
-        <li><span class="vocab-jp">gyuunyuu / miruku</span><span class="vocab-en">milk</span></li>
-        <li><span class="vocab-jp">juusu</span><span class="vocab-en">juice</span></li>
-        <li><span class="vocab-jp">biiru</span><span class="vocab-en">beer</span></li>
-        <li><span class="vocab-jp">(o)sake</span><span class="vocab-en">alcohol / sake</span></li>
-        <li><span class="vocab-jp">tabako</span><span class="vocab-en">cigarette / tobacco</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Things to do/use</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">bideo</span><span class="vocab-en">video</span></li>
-        <li><span class="vocab-jp">CD</span><span class="vocab-en">CD</span></li>
-        <li><span class="vocab-jp">DVD</span><span class="vocab-en">DVD</span></li>
-        <li><span class="vocab-jp">tegami</span><span class="vocab-en">letter</span></li>
-        <li><span class="vocab-jp">repooto</span><span class="vocab-en">report</span></li>
-        <li><span class="vocab-jp">shashin</span><span class="vocab-en">photo</span></li>
-        <li><span class="vocab-jp">shukudai</span><span class="vocab-en">homework (~ o shimasu)</span></li>
-        <li><span class="vocab-jp">tenisu</span><span class="vocab-en">tennis (~ o shimasu)</span></li>
-        <li><span class="vocab-jp">sakkaa</span><span class="vocab-en">soccer (~ o shimasu)</span></li>
-        <li><span class="vocab-jp">ohanami</span><span class="vocab-en">cherry-blossom viewing</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Places (of action)</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">mise</span><span class="vocab-en">shop / store</span></li>
-        <li><span class="vocab-jp">niwa</span><span class="vocab-en">garden</span></li>
-        <li><span class="vocab-jp">resutoran</span><span class="vocab-en">restaurant</span></li>
-      </ul>
-    </div>
-
-    <div class="vocab-card">
-      <h4>Helpers &amp; phrases</h4>
-      <ul class="vocab-list">
-        <li><span class="vocab-jp">nanika</span><span class="vocab-en">something</span></li>
-        <li><span class="vocab-jp">issho ni</span><span class="vocab-en">together</span></li>
-        <li><span class="vocab-jp">chotto</span><span class="vocab-en">a little / a moment</span></li>
-        <li><span class="vocab-jp">itsumo</span><span class="vocab-en">always</span></li>
-        <li><span class="vocab-jp">tokidoki</span><span class="vocab-en">sometimes</span></li>
-        <li><span class="vocab-jp">soredewa / jaa</span><span class="vocab-en">well then…</span></li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- GRAMMAR -->
-  <div class="subsection">
-    <div class="section-label">Grammar</div>
-    <h3 class="section-h">Patterns to master</h3>
-
-    <div class="grammar-card kind-action">
-      <div class="grammar-num">1</div>
-      <div class="grammar-title">Doing something to an object</div>
-      <p class="grammar-desc">The particle <span class="particle p-o">o</span> (written を, pronounced "o") marks the direct object — the thing the verb acts on.</p>
-      <div class="pattern"><span class="slot">Object</span> <span class="particle p-o">o</span> <span class="slot">Verb</span>-masu</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="obj-highlight">Pan</span> <span class="particle p-o">o</span> <span class="verb-highlight">tabemasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I eat bread.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="obj-highlight">Ocha</span> <span class="particle p-o">o</span> <span class="verb-highlight">nomimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I drink tea.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Mainichi <span class="obj-highlight">shinbun</span> <span class="particle p-o">o</span> <span class="verb-highlight">yomimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I read the newspaper every day.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-action">
-      <div class="grammar-num">2</div>
-      <div class="grammar-title">"Doing N" — N o shimasu</div>
-      <p class="grammar-desc">Many nouns (sports, study tasks, events) take <strong>shimasu</strong> with <span class="particle p-o">o</span> to mean "do N."</p>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="obj-highlight">Tenisu</span> <span class="particle p-o">o</span> <span class="verb-highlight">shimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I play tennis.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Konban <span class="obj-highlight">shukudai</span> <span class="particle p-o">o</span> <span class="verb-highlight">shimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I'll do homework tonight.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-action">
-      <div class="grammar-num">3</div>
-      <div class="grammar-title">"What will you do?" — nani o ~</div>
-      <div class="pattern"><span class="slot">Time</span> nani <span class="particle p-o">o</span> shimasu ka.</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Nichiyoubi nani <span class="particle p-o">o</span> shimasu ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">What will you do on Sunday?</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Asa nani <span class="particle p-o">o</span> tabemasu ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">What do you eat in the morning?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-action">
-      <div class="grammar-num">4</div>
-      <div class="grammar-title">"Something" — nanika</div>
-      <p class="grammar-desc">In a question, <strong>nanika</strong> means "anything/something." When asking, the <span class="particle p-o">o</span> is usually dropped.</p>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Asa nanika tabemasu ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">Do you eat anything in the morning?</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Hai, pan <span class="particle p-o">o</span> tabemasu. / Iie, nani <span class="particle p-mo">mo</span> tabemasen. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">Yes, I eat bread. / No, I don't eat anything. ("nani mo" + negative = nothing)</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-place">
-      <div class="grammar-num">5</div>
-      <div class="grammar-title">Where you do something</div>
-      <p class="grammar-desc">This is the big one. Use <span class="particle p-de">de</span> to mark the place where an action happens. Don't confuse this with <span class="particle p-e">e</span> (destination) or <span class="particle p-ni">ni</span> (existence/time).</p>
-      <div class="pattern"><span class="slot">Place</span> <span class="particle p-de">de</span> <span class="slot">Object</span> <span class="particle p-o">o</span> <span class="slot">Verb</span></div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="place-highlight">Resutoran</span> <span class="particle p-de">de</span> <span class="obj-highlight">hirugohan</span> <span class="particle p-o">o</span> <span class="verb-highlight">tabemasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I eat lunch at the restaurant.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="place-highlight">Toshokan</span> <span class="particle p-de">de</span> <span class="verb-highlight">benkyou shimasu</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I study at the library.</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp"><span class="place-highlight">Niwa</span> <span class="particle p-de">de</span> <span class="obj-highlight">shashin</span> <span class="particle p-o">o</span> <span class="verb-highlight">torimashita</span>. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">I took a photo in the garden.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-invite">
-      <div class="grammar-num">6</div>
-      <div class="grammar-title">Inviting — "Won't you ~?"</div>
-      <p class="grammar-desc">Use the negative <strong>-masen ka</strong> to invite someone politely. This isn't a real "no" question — it's a friendly invitation.</p>
-      <div class="pattern">(Issho ni) <span class="slot">Verb</span>-masen ka.</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Issho ni hirugohan <span class="particle p-o">o</span> tabemasen ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">Won't you have lunch with me? / Wanna grab lunch together?</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Ashita Kyouto e ikimasen ka. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">Won't you go to Kyoto tomorrow?</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grammar-card kind-invite">
-      <div class="grammar-num">7</div>
-      <div class="grammar-title">"Let's ~" — -mashou</div>
-      <p class="grammar-desc">A more positive proposal/agreement than <em>-masen ka</em>. Often the response to an invitation.</p>
-      <div class="pattern"><span class="slot">Verb</span>-mashou.</div>
-      <div class="examples">
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">A: Issho ni biiru o nomimasen ka. / B: Ee, nomimashou. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">A: Want to have a beer together? / B: Yes, let's!</div>
-        </div>
-        <div class="ex" onclick="this.classList.toggle('open')">
-          <div class="ex-jp">Soredewa, juuniji ni eki de aimashou. <span class="ex-toggle-hint">tap</span></div>
-          <div class="ex-en">Well then, let's meet at the station at 12.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== PARTICLE CHEAT SHEET ==================== -->
-<section class="cheatsheet" id="particles">
-  <div class="section-label">Reference</div>
-  <h3>The Particle Cheat Sheet</h3>
-  <p style="color: rgba(244, 237, 224, 0.7); margin-bottom: 32px; max-width: 600px;">If you confuse <strong>ni / e / de</strong>, you'll get tripped up across these whole three chapters. Memorize this table.</p>
-
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-ni);">ni</div>
-    <div class="p-role">Point in time<small>specific clock/calendar times</small></div>
-    <div class="p-ex">shichiji <strong>ni</strong> okimasu — get up at 7</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-e);">e</div>
-    <div class="p-role">Destination (movement)<small>where you're going to</small></div>
-    <div class="p-ex">gakkou <strong>e</strong> ikimasu — go to school</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-de);">de</div>
-    <div class="p-role">Location of an action / means<small>where it happens / what tool</small></div>
-    <div class="p-ex">resutoran <strong>de</strong> tabemasu — eat at the restaurant<br>basu <strong>de</strong> ikimasu — go by bus</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-o);">o</div>
-    <div class="p-role">Direct object<small>the thing acted upon</small></div>
-    <div class="p-ex">pan <strong>o</strong> tabemasu — eat bread</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-to);">to</div>
-    <div class="p-role">"And" / "With"<small>list of nouns, or companion</small></div>
-    <div class="p-ex">tomodachi <strong>to</strong> ikimasu — go with a friend</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-kara);">kara</div>
-    <div class="p-role">Starting point<small>from a time or place</small></div>
-    <div class="p-ex">kuji <strong>kara</strong> — from 9 o'clock</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-made);">made</div>
-    <div class="p-role">End point<small>until a time or place</small></div>
-    <div class="p-ex">sanji <strong>made</strong> — until 3 o'clock</div>
-  </div>
-  <div class="particle-row">
-    <div class="p-display" style="background: var(--p-mo);">mo</div>
-    <div class="p-role">"Also" / "(not) any"<small>with negatives forms "no…"</small></div>
-    <div class="p-ex">nani <strong>mo</strong> tabemasen — don't eat anything</div>
-  </div>
-</section>
-
-<!-- ==================== TIPS ==================== -->
-<div class="tips" id="tips">
-  <h4>How to actually retain this</h4>
-  <ul>
-    <li><strong>Don't memorize particles by name — memorize them by role.</strong> Ask "what job is this particle doing?" not "which particle goes here?"</li>
-    <li><strong>The ni / e / de triangle is the heart of these chapters.</strong> Practice with the same sentence: "I [verb] at 7 / to school / on foot." Each one is a different particle.</li>
-    <li><strong>Make a chart of your daily routine in Japanese.</strong> "6-ji ni okimasu. 7-ji ni asagohan o tabemasu. 9-ji kara gogo 5-ji made hatarakimasu." This single exercise uses 80% of these chapters.</li>
-    <li><strong>For invitations, learn the rhythm:</strong> Q: <em>~masen ka.</em> → A: <em>Ee, ~mashou.</em> It's almost ritual.</li>
-    <li><strong>Drill the irregular numbers</strong> (yoji, shichiji, kuji; tsuitachi, futsuka, mikka…). They show up in every exam.</li>
-  </ul>
-</div>
-
-<!-- ==================== QUIZ ==================== -->
-<section class="quiz" id="quiz">
-  <h3>Self-Quiz</h3>
-  <p>Fill in the blank, then tap <strong>Reveal</strong>. Don't peek!</p>
-
-  <div class="q-item">
-    <div class="q-num">Q1 · Particles</div>
-    <div class="q-prompt">Watashi wa shichiji <span class="q-blank">?</span> okimasu.</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><span class="particle p-ni">ni</span> — specific clock time takes <strong>ni</strong>.</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q2 · Particles</div>
-    <div class="q-prompt">Ashita Tokyo <span class="q-blank">?</span> ikimasu.</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><span class="particle p-e">e</span> — destination of motion verb.</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q3 · Particles</div>
-    <div class="q-prompt">Resutoran <span class="q-blank">?</span> hirugohan <span class="q-blank">?</span> tabemasu.</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><span class="particle p-de">de</span> (place of action) + <span class="particle p-o">o</span> (object)</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q4 · Particles</div>
-    <div class="q-prompt">Densha <span class="q-blank">?</span> kaisha <span class="q-blank">?</span> ikimasu.</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><span class="particle p-de">de</span> (means of transport) + <span class="particle p-e">e</span> (destination)</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q5 · Verb conjugation</div>
-    <div class="q-prompt">"I didn't eat" → <code>tabemasu</code> becomes…?</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><strong>tabemasen deshita</strong> — past negative.</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q6 · Time</div>
-    <div class="q-prompt">How do you say "4:30 p.m."?</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><strong>gogo yoji han</strong> — note "yoji," not "shiji."</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q7 · Invitations</div>
-    <div class="q-prompt">Translate: "Won't you watch a movie together?"</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><strong>Issho ni eiga o mimasen ka.</strong></span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q8 · Days</div>
-    <div class="q-prompt">How do you say "the 1st" (of the month)?</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><strong>tsuitachi</strong> — fully irregular.</span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q9 · "Nothing"</div>
-    <div class="q-prompt">Translate: "I didn't go anywhere yesterday."</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><strong>Kinou doko e mo ikimasen deshita.</strong></span></div>
-  </div>
-
-  <div class="q-item">
-    <div class="q-num">Q10 · From ~ to ~</div>
-    <div class="q-prompt">Translate: "The library is open from 9 to 8 p.m."</div>
-    <button class="q-reveal" onclick="toggleAns(this)">Reveal</button>
-    <div class="q-answer"><span><strong>Toshokan wa kuji kara gogo hachiji made desu.</strong></span></div>
-  </div>
-</section>
-
-</main>
-
-<footer>
-  Made for studying <em>Minna no Nihongo · Shokyuu I · 2nd Ed.</em> · Romanized · Lessons 4–6<br>
-  Ganbatte kudasai. ◆
-</footer>
-
-<script>
-  // Tap to reveal English translations
-  // (already handled inline via onclick toggling .open)
-
-  // Quiz answer reveal
-  function toggleAns(btn) {
-    const ans = btn.nextElementSibling;
-    ans.classList.toggle('show');
-    btn.textContent = ans.classList.contains('show') ? 'Hide' : 'Reveal';
-  }
-
-  // Active nav link highlighting on scroll
-  const sections = document.querySelectorAll('section[id], div[id]');
-  const navLinks = document.querySelectorAll('.nav-link');
-
-  function updateActive() {
-    let current = '';
-    sections.forEach(sec => {
-      const top = sec.getBoundingClientRect().top;
-      if (top < 150) current = sec.id;
-    });
-    navLinks.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-    });
-  }
-  window.addEventListener('scroll', updateActive);
-  updateActive();
-</script>
-
 </body>
 </html>
