@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hiragana &amp; Flashcards · Study Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ede0;
+    --paper-deep: #ebe1ce;
+    --ink: #1a2e44;
+    --ink-soft: #3a4a5e;
+    --ink-mute: #6b7686;
+    --vermillion: #c54e3a;
+    --vermillion-soft: #e89a8a;
+    --ochre: #b8893d;
+    --sage: #6b8068;
+    --plum: #8a4a6b;
+    --teal: #3a7a7a;
+    --gold: #c79728;
+    --rule: #d9ccb0;
+
+    /* row colors for hiragana */
+    --row-a: #c54e3a;       /* a-i-u-e-o */
+    --row-k: #b8893d;
+    --row-s: #6b8068;
+    --row-t: #3a7a7a;
+    --row-n: #5a6fa8;
+    --row-h: #8a4a6b;
+    --row-m: #c79728;
+    --row-y: #7a6a4a;
+    --row-r: #a85a8a;
+    --row-w: #4a8a5a;
+    --row-spec: #1a2e44;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 16px;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(197, 78, 58, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(58, 122, 122, 0.04) 0%, transparent 40%);
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(26, 46, 68, 0.012) 2px, rgba(26, 46, 68, 0.012) 3px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    padding: 70px 24px 50px;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, var(--paper-deep) 0%, var(--paper) 100%);
+    z-index: 2;
+  }
+  .hero-stamp {
+    display: inline-block;
+    margin-bottom: 22px;
+    padding: 10px 18px;
+    background: var(--vermillion);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    transform: rotate(-2deg);
+    box-shadow: 3px 3px 0 rgba(26, 46, 68, 0.15);
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--vermillion);
+    font-weight: 300;
+  }
+  .hero h1 .jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 500;
+    color: var(--ink);
+    margin-right: 12px;
+  }
+  .hero p {
+    color: var(--ink-mute);
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ===== NAV ===== */
+  nav.section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(244, 237, 224, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 24px;
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav-inner a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  .nav-inner a:hover {
+    color: var(--ink);
+    background: var(--paper-deep);
+    border-color: var(--rule);
+  }
+  .nav-inner a.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .nav-inner .sep { color: var(--rule); }
+
+  /* ===== MAIN ===== */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  section.chapter {
+    margin-bottom: 100px;
+    scroll-margin-top: 90px;
+  }
+  .chapter-header {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .chapter-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.1rem;
+    color: var(--vermillion);
+    letter-spacing: 0.1em;
+  }
+  .chapter-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 2.4rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .chapter-theme {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-mute);
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+    padding-left: 4px;
+  }
+
+  .section-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--vermillion);
+    margin-bottom: 12px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--vermillion);
+  }
+  h3.section-h {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .subsection {
+    margin: 56px 0 32px;
+  }
+
+  /* ===== HIRAGANA CHART ===== */
+  .chart-legend {
+    margin-bottom: 16px;
+    color: var(--ink-mute);
+    font-size: 0.9rem;
+  }
+  .chart-legend strong { color: var(--ink); }
+
+  .kana-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  .kana-cell {
+    position: relative;
+    background: rgba(255, 253, 247, 0.6);
+    border: 1.5px solid var(--rule);
+    border-radius: 8px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    aspect-ratio: 1 / 1.05;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .kana-cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 46, 68, 0.1);
+  }
+  .kana-cell .kana {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--row-color, var(--ink));
+    margin-bottom: 6px;
+  }
+  .kana-cell .romaji {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink-mute);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  .kana-cell.empty {
+    background: transparent;
+    border: 1px dashed rgba(217, 204, 176, 0.5);
+    cursor: default;
+  }
+  .kana-cell.empty:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* mnemonic popover - shown on click */
+  .kana-cell .mnemonic {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+  }
+  .kana-cell.flipped .mnemonic {
+    display: flex;
+  }
+  .kana-cell.flipped .kana,
+  .kana-cell.flipped .romaji { visibility: hidden; }
+
+  /* row colors */
+  .row-a .kana { color: var(--row-a); }
+  .row-k .kana { color: var(--row-k); }
+  .row-s .kana { color: var(--row-s); }
+  .row-t .kana { color: var(--row-t); }
+  .row-n .kana { color: var(--row-n); }
+  .row-h .kana { color: var(--row-h); }
+  .row-m .kana { color: var(--row-m); }
+  .row-y .kana { color: var(--row-y); }
+  .row-r .kana { color: var(--row-r); }
+  .row-w .kana { color: var(--row-w); }
+  .row-spec .kana { color: var(--row-spec); }
+
+  .kana-tip {
+    text-align: center;
+    color: var(--ink-mute);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+
+  /* ===== TIPS ===== */
+  .tips {
+    background: rgba(255, 253, 247, 0.6);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 32px 40px;
+    margin: 40px 0;
+  }
+  .tips h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: var(--vermillion);
+    margin-bottom: 16px;
+  }
+  .tips ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .tips li {
+    padding: 8px 0 8px 24px;
+    position: relative;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+  .tips li::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: var(--vermillion);
+    font-size: 0.7rem;
+    top: 14px;
+  }
+  .tips strong { color: var(--ink); }
+  .tips .jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 500;
+    color: var(--vermillion);
+  }
+
+  /* ===== VOCAB ===== */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .vocab-card {
+    background: rgba(255, 253, 247, 0.6);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .vocab-card h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--rule);
+    display: flex;
+    justify-content: space-between;
+  }
+  .vocab-card h4 .count {
+    color: var(--vermillion);
+    font-weight: 600;
+  }
+  .vocab-list { list-style: none; }
+  .vocab-list li {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+    align-items: baseline;
+    padding: 7px 0;
+    gap: 8px;
+    border-bottom: 1px dotted rgba(217, 204, 176, 0.5);
+    font-size: 0.92rem;
+  }
+  .vocab-list li:last-child { border-bottom: none; }
+  .vocab-list .jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 500;
+    color: var(--ink);
+    font-size: 1.05rem;
+  }
+  .vocab-list .ro {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink-mute);
+    font-size: 0.82rem;
+  }
+  .vocab-list .en {
+    color: var(--ink-soft);
+    font-style: italic;
+    text-align: right;
+    font-size: 0.85rem;
+  }
+
+  /* ===== FLASHCARD ===== */
+  .flashcard-wrap {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 16px;
+    padding: 48px 40px;
+    margin: 48px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .flashcard-wrap::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--vermillion) 0%, transparent 70%);
+    opacity: 0.18;
+  }
+  .flashcard-wrap .section-label {
+    color: var(--vermillion-soft);
+    border-color: var(--vermillion-soft);
+  }
+  .flashcard-wrap h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 2rem;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+  .flashcard-wrap > p.intro {
+    color: rgba(244, 237, 224, 0.7);
+    margin-bottom: 28px;
+  }
+
+  /* controls */
+  .fc-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+    align-items: center;
+  }
+  .fc-controls label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244, 237, 224, 0.6);
+    margin-right: 6px;
+  }
+  .fc-controls select, .fc-controls button {
+    background: rgba(244, 237, 224, 0.1);
+    border: 1px solid rgba(244, 237, 224, 0.25);
+    color: var(--paper);
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .fc-controls select:hover, .fc-controls button:hover {
+    background: rgba(244, 237, 224, 0.18);
+    border-color: rgba(244, 237, 224, 0.4);
+  }
+  .fc-controls .btn-primary {
+    background: var(--vermillion);
+    border-color: var(--vermillion);
+  }
+  .fc-controls .btn-primary:hover {
+    background: #d4604c;
+  }
+
+  /* card */
+  .fc-card {
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 12px;
+    padding: 60px 40px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+  }
+  .fc-card:active {
+    transform: scale(0.99);
+  }
+  .fc-front .fc-jp {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 500;
+    font-size: clamp(3rem, 9vw, 5.5rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .fc-front .fc-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--ink-mute);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .fc-back { display: none; }
+  .fc-card.revealed .fc-front { display: none; }
+  .fc-card.revealed .fc-back {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .fc-back .fc-ro {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--vermillion);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .fc-back .fc-en {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    color: var(--ink);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .fc-back .fc-jp-small {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 1.4rem;
+    color: var(--ink-mute);
+    margin-top: 6px;
+  }
+
+  /* mode: reverse (english -> hiragana) */
+  .fc-card.mode-reverse .fc-front .fc-jp {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(2rem, 6vw, 3.4rem);
+    color: var(--ink);
+  }
+
+  /* progress */
+  .fc-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: rgba(244, 237, 224, 0.7);
+    letter-spacing: 0.1em;
+  }
+  .fc-progress .stat {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .fc-progress .stat strong {
+    color: var(--paper);
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .fc-progress .stat.know strong { color: #9ec990; }
+  .fc-progress .stat.unsure strong { color: var(--vermillion-soft); }
+
+  /* answer buttons (only when revealed) */
+  .fc-answer-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  .fc-answer-row button {
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .fc-btn-knew {
+    background: #6b8068;
+    color: var(--paper);
+  }
+  .fc-btn-knew:hover { background: #7a9077; }
+  .fc-btn-missed {
+    background: var(--vermillion);
+    color: var(--paper);
+  }
+  .fc-btn-missed:hover { background: #d4604c; }
+  .fc-btn-skip {
+    background: rgba(244, 237, 224, 0.15);
+    color: var(--paper);
+  }
+  .fc-btn-skip:hover { background: rgba(244, 237, 224, 0.25); }
+
+  .fc-empty {
+    text-align: center;
+    color: rgba(244, 237, 224, 0.7);
+    padding: 40px;
+  }
+
+  /* keyboard hint */
+  .fc-keyhint {
+    text-align: center;
+    margin-top: 18px;
+    color: rgba(244, 237, 224, 0.5);
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .fc-keyhint kbd {
+    background: rgba(244, 237, 224, 0.15);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: inherit;
+    font-size: 0.85em;
+    margin: 0 2px;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 60px 24px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-mute);
+    font-size: 0.85rem;
+  }
+  footer em { font-style: italic; color: var(--vermillion); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    .hero { padding: 50px 20px 40px; }
+    main { padding: 40px 20px; }
+    .chapter-title { font-size: 1.8rem; }
+    .chapter-header { flex-direction: column; gap: 4px; }
+    .kana-grid { gap: 6px; }
+    .flashcard-wrap { padding: 32px 20px; }
+    .fc-card { padding: 40px 20px; min-height: 260px; }
+    .vocab-list li { grid-template-columns: 1fr 1fr; }
+    .vocab-list .en { grid-column: 1 / -1; text-align: left; padding-top: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-stamp">Hiragana · From zero</div>
+  <h1><span class="jp">ひらがな</span><em>Read it. Say it. Know it.</em></h1>
+  <p>A complete beginner's path to reading hiragana and translating the most common N5 vocabulary, with a flashcard tool that mimics your exam.</p>
+</header>
+
+<nav class="section-nav">
+  <div class="nav-inner">
+    <a href="#chart" class="nav-link">The Chart</a>
+    <span class="sep">·</span>
+    <a href="#dakuten" class="nav-link">Dakuten</a>
+    <span class="sep">·</span>
+    <a href="#combos" class="nav-link">Combos</a>
+    <span class="sep">·</span>
+    <a href="#tips" class="nav-link">Tips</a>
+    <span class="sep">·</span>
+    <a href="#vocab" class="nav-link">Vocabulary</a>
+    <span class="sep">·</span>
+    <a href="#flashcards" class="nav-link">Flashcards</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===== HIRAGANA CHART ===== -->
+<section class="chapter" id="chart">
+  <div class="chapter-header">
+    <span class="chapter-num">Part 1</span>
+    <h2 class="chapter-title">The Hiragana Chart</h2>
+  </div>
+  <p class="chapter-theme">46 characters, organized into 10 rows by consonant. Learn them row by row.</p>
+
+  <p class="chart-legend">Read <strong>left to right</strong>, top to bottom: a · i · u · e · o. Each row uses a consistent color. <strong>Tap any cell</strong> to see a memory hint.</p>
+  <p class="kana-tip">Click each cell &uarr; for a mnemonic to help you remember the shape.</p>
+
+  <!-- A row -->
+  <div class="kana-grid">
+    <div class="kana-cell row-a" onclick="this.classList.toggle('flipped')"><div class="kana">あ</div><div class="romaji">a</div><div class="mnemonic">Looks like a capital <strong>A</strong> with a hat &amp; tail.</div></div>
+    <div class="kana-cell row-a" onclick="this.classList.toggle('flipped')"><div class="kana">い</div><div class="romaji">i</div><div class="mnemonic">Two <strong>"i"</strong>s standing side by side.</div></div>
+    <div class="kana-cell row-a" onclick="this.classList.toggle('flipped')"><div class="kana">う</div><div class="romaji">u</div><div class="mnemonic">A face saying <strong>"oo"</strong> with a nose.</div></div>
+    <div class="kana-cell row-a" onclick="this.classList.toggle('flipped')"><div class="kana">え</div><div class="romaji">e</div><div class="mnemonic">An <strong>e</strong>xotic bird with a tall head.</div></div>
+    <div class="kana-cell row-a" onclick="this.classList.toggle('flipped')"><div class="kana">お</div><div class="romaji">o</div><div class="mnemonic">An <strong>o</strong>ctopus's head with a tail.</div></div>
+
+    <!-- KA -->
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">か</div><div class="romaji">ka</div><div class="mnemonic">A <strong>ka</strong>ngaroo: body + tail.</div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">き</div><div class="romaji">ki</div><div class="mnemonic">Looks like a <strong>key</strong>.</div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">く</div><div class="romaji">ku</div><div class="mnemonic">A <strong>cuckoo</strong> bird's open beak.</div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">け</div><div class="romaji">ke</div><div class="mnemonic">A <strong>ke</strong>g standing tall.</div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">こ</div><div class="romaji">ko</div><div class="mnemonic">Two <strong>co</strong>coa drops.</div></div>
+
+    <!-- SA -->
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">さ</div><div class="romaji">sa</div><div class="mnemonic">A <strong>sa</strong>murai sword + sheath.</div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">し</div><div class="romaji">shi</div><div class="mnemonic">A fish<strong>i</strong>ng hook.</div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">す</div><div class="romaji">su</div><div class="mnemonic">A <strong>swing</strong>ing loop.</div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">せ</div><div class="romaji">se</div><div class="mnemonic">A man <strong>se</strong>tting up: chair + back.</div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">そ</div><div class="romaji">so</div><div class="mnemonic">A <strong>so</strong>-so zigzag (Zorro mark).</div></div>
+
+    <!-- TA -->
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">た</div><div class="romaji">ta</div><div class="mnemonic">A <strong>+</strong> and a <strong>−</strong>: <em>ta</em>.</div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">ち</div><div class="romaji">chi</div><div class="mnemonic">A <strong>chee</strong>rleader's pose.</div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">つ</div><div class="romaji">tsu</div><div class="mnemonic">A <strong>tsu</strong>nami wave.</div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">て</div><div class="romaji">te</div><div class="mnemonic">Looks like a <strong>te</strong>levision antenna.</div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">と</div><div class="romaji">to</div><div class="mnemonic">A <strong>to</strong>e with a needle in it.</div></div>
+
+    <!-- NA -->
+    <div class="kana-cell row-n" onclick="this.classList.toggle('flipped')"><div class="kana">な</div><div class="romaji">na</div><div class="mnemonic">A k<strong>na</strong>ve with a cross.</div></div>
+    <div class="kana-cell row-n" onclick="this.classList.toggle('flipped')"><div class="kana">に</div><div class="romaji">ni</div><div class="mnemonic">A bent <strong>knee</strong>.</div></div>
+    <div class="kana-cell row-n" onclick="this.classList.toggle('flipped')"><div class="kana">ぬ</div><div class="romaji">nu</div><div class="mnemonic">A bowl of <strong>noo</strong>dles.</div></div>
+    <div class="kana-cell row-n" onclick="this.classList.toggle('flipped')"><div class="kana">ね</div><div class="romaji">ne</div><div class="mnemonic">A cat curled in its <strong>ne</strong>st.</div></div>
+    <div class="kana-cell row-n" onclick="this.classList.toggle('flipped')"><div class="kana">の</div><div class="romaji">no</div><div class="mnemonic">A <strong>no</strong>-entry sign.</div></div>
+
+    <!-- HA -->
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">は</div><div class="romaji">ha</div><div class="mnemonic">A <strong>ha</strong>nd with a tally.</div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">ひ</div><div class="romaji">hi</div><div class="mnemonic">A smile saying <strong>"hee hee"</strong>.</div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">ふ</div><div class="romaji">fu</div><div class="mnemonic">Mount <strong>Fu</strong>ji.</div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">へ</div><div class="romaji">he</div><div class="mnemonic">A <strong>he</strong>ading arrow / hill.</div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">ほ</div><div class="romaji">ho</div><div class="mnemonic">Like は but with extra: <strong>"ho-ho-ho"</strong>.</div></div>
+
+    <!-- MA -->
+    <div class="kana-cell row-m" onclick="this.classList.toggle('flipped')"><div class="kana">ま</div><div class="romaji">ma</div><div class="mnemonic"><strong>Ma</strong>ma with curly hair.</div></div>
+    <div class="kana-cell row-m" onclick="this.classList.toggle('flipped')"><div class="kana">み</div><div class="romaji">mi</div><div class="mnemonic">The number <strong>21</strong>: ni-jū-i<strong>chi</strong> → mi.</div></div>
+    <div class="kana-cell row-m" onclick="this.classList.toggle('flipped')"><div class="kana">む</div><div class="romaji">mu</div><div class="mnemonic">A cow saying <strong>"moo"</strong>.</div></div>
+    <div class="kana-cell row-m" onclick="this.classList.toggle('flipped')"><div class="kana">め</div><div class="romaji">me</div><div class="mnemonic">An <strong>eye</strong> ("me" means eye!).</div></div>
+    <div class="kana-cell row-m" onclick="this.classList.toggle('flipped')"><div class="kana">も</div><div class="romaji">mo</div><div class="mnemonic">A fishing line with two wor<strong>m</strong>s.</div></div>
+
+    <!-- YA - only 3 -->
+    <div class="kana-cell row-y" onclick="this.classList.toggle('flipped')"><div class="kana">や</div><div class="romaji">ya</div><div class="mnemonic">A <strong>ya</strong>k with horns.</div></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell row-y" onclick="this.classList.toggle('flipped')"><div class="kana">ゆ</div><div class="romaji">yu</div><div class="mnemonic">A <strong>U</strong>-shaped fish (yummy).</div></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell row-y" onclick="this.classList.toggle('flipped')"><div class="kana">よ</div><div class="romaji">yo</div><div class="mnemonic">A <strong>yo</strong>-yo on a string.</div></div>
+
+    <!-- RA -->
+    <div class="kana-cell row-r" onclick="this.classList.toggle('flipped')"><div class="kana">ら</div><div class="romaji">ra</div><div class="mnemonic">A <strong>ra</strong>bbit's ears.</div></div>
+    <div class="kana-cell row-r" onclick="this.classList.toggle('flipped')"><div class="kana">り</div><div class="romaji">ri</div><div class="mnemonic">Two <strong>ree</strong>ds standing.</div></div>
+    <div class="kana-cell row-r" onclick="this.classList.toggle('flipped')"><div class="kana">る</div><div class="romaji">ru</div><div class="mnemonic">A <strong>roo</strong>p (loop) at the end.</div></div>
+    <div class="kana-cell row-r" onclick="this.classList.toggle('flipped')"><div class="kana">れ</div><div class="romaji">re</div><div class="mnemonic">A <strong>re</strong>lay runner.</div></div>
+    <div class="kana-cell row-r" onclick="this.classList.toggle('flipped')"><div class="kana">ろ</div><div class="romaji">ro</div><div class="mnemonic">A winding <strong>ro</strong>ad (just like る without the loop).</div></div>
+
+    <!-- WA + special -->
+    <div class="kana-cell row-w" onclick="this.classList.toggle('flipped')"><div class="kana">わ</div><div class="romaji">wa</div><div class="mnemonic">A <strong>wa</strong>ve of water.</div></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell row-w" onclick="this.classList.toggle('flipped')"><div class="kana">を</div><div class="romaji">wo / o</div><div class="mnemonic">Object particle (sounds like "o"). Pers<strong>o</strong>n with arms out.</div></div>
+
+    <!-- N -->
+    <div class="kana-cell row-spec" onclick="this.classList.toggle('flipped')"><div class="kana">ん</div><div class="romaji">n</div><div class="mnemonic">Just like an English <strong>"n"</strong> — only consonant that stands alone.</div></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell empty"></div>
+    <div class="kana-cell empty"></div>
+  </div>
+</section>
+
+<!-- ===== DAKUTEN ===== -->
+<section class="chapter" id="dakuten">
+  <div class="chapter-header">
+    <span class="chapter-num">Part 2</span>
+    <h2 class="chapter-title">Dakuten &amp; Handakuten</h2>
+  </div>
+  <p class="chapter-theme">Two little marks change consonants. Master these and you've added 25 sounds without learning new shapes.</p>
+
+  <div class="tips">
+    <h4>How they work</h4>
+    <ul>
+      <li><strong>Dakuten</strong> <span class="jp">゛</span> (two small dashes, top-right) <strong>voices</strong> the consonant. <span class="jp">か</span> ka → <span class="jp">が</span> ga.</li>
+      <li><strong>Handakuten</strong> <span class="jp">゜</span> (a small circle, top-right) only goes on the <strong>h-row</strong> to make the <strong>p-row</strong>. <span class="jp">は</span> ha → <span class="jp">ぱ</span> pa.</li>
+      <li>The shape doesn't change. Just the mark. That means once you know the base chart, the dakuten chart is almost free.</li>
+    </ul>
+  </div>
+
+  <div class="kana-grid">
+    <!-- GA -->
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">が</div><div class="romaji">ga</div><div class="mnemonic">か + dakuten = <strong>ga</strong></div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">ぎ</div><div class="romaji">gi</div><div class="mnemonic">き + dakuten = <strong>gi</strong></div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">ぐ</div><div class="romaji">gu</div><div class="mnemonic">く + dakuten = <strong>gu</strong></div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">げ</div><div class="romaji">ge</div><div class="mnemonic">け + dakuten = <strong>ge</strong></div></div>
+    <div class="kana-cell row-k" onclick="this.classList.toggle('flipped')"><div class="kana">ご</div><div class="romaji">go</div><div class="mnemonic">こ + dakuten = <strong>go</strong></div></div>
+
+    <!-- ZA -->
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">ざ</div><div class="romaji">za</div><div class="mnemonic">さ + dakuten = <strong>za</strong></div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">じ</div><div class="romaji">ji</div><div class="mnemonic">し + dakuten = <strong>ji</strong> (not "zi")</div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">ず</div><div class="romaji">zu</div><div class="mnemonic">す + dakuten = <strong>zu</strong></div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">ぜ</div><div class="romaji">ze</div><div class="mnemonic">せ + dakuten = <strong>ze</strong></div></div>
+    <div class="kana-cell row-s" onclick="this.classList.toggle('flipped')"><div class="kana">ぞ</div><div class="romaji">zo</div><div class="mnemonic">そ + dakuten = <strong>zo</strong></div></div>
+
+    <!-- DA -->
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">だ</div><div class="romaji">da</div><div class="mnemonic">た + dakuten = <strong>da</strong></div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">ぢ</div><div class="romaji">ji</div><div class="mnemonic">ち + dakuten = <strong>ji</strong> (rare; usually じ is used)</div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">づ</div><div class="romaji">zu</div><div class="mnemonic">つ + dakuten = <strong>zu</strong> (rare; usually ず is used)</div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">で</div><div class="romaji">de</div><div class="mnemonic">て + dakuten = <strong>de</strong></div></div>
+    <div class="kana-cell row-t" onclick="this.classList.toggle('flipped')"><div class="kana">ど</div><div class="romaji">do</div><div class="mnemonic">と + dakuten = <strong>do</strong></div></div>
+
+    <!-- BA -->
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">ば</div><div class="romaji">ba</div><div class="mnemonic">は + dakuten = <strong>ba</strong></div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">び</div><div class="romaji">bi</div><div class="mnemonic">ひ + dakuten = <strong>bi</strong></div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">ぶ</div><div class="romaji">bu</div><div class="mnemonic">ふ + dakuten = <strong>bu</strong></div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">べ</div><div class="romaji">be</div><div class="mnemonic">へ + dakuten = <strong>be</strong></div></div>
+    <div class="kana-cell row-h" onclick="this.classList.toggle('flipped')"><div class="kana">ぼ</div><div class="romaji">bo</div><div class="mnemonic">ほ + dakuten = <strong>bo</strong></div></div>
+
+    <!-- PA (handakuten) -->
+    <div class="kana-cell row-spec" onclick="this.classList.toggle('flipped')"><div class="kana">ぱ</div><div class="romaji">pa</div><div class="mnemonic">は + handakuten ° = <strong>pa</strong></div></div>
+    <div class="kana-cell row-spec" onclick="this.classList.toggle('flipped')"><div class="kana">ぴ</div><div class="romaji">pi</div><div class="mnemonic">ひ + ° = <strong>pi</strong></div></div>
+    <div class="kana-cell row-spec" onclick="this.classList.toggle('flipped')"><div class="kana">ぷ</div><div class="romaji">pu</div><div class="mnemonic">ふ + ° = <strong>pu</strong></div></div>
+    <div class="kana-cell row-spec" onclick="this.classList.toggle('flipped')"><div class="kana">ぺ</div><div class="romaji">pe</div><div class="mnemonic">へ + ° = <strong>pe</strong></div></div>
+    <div class="kana-cell row-spec" onclick="this.classList.toggle('flipped')"><div class="kana">ぽ</div><div class="romaji">po</div><div class="mnemonic">ほ + ° = <strong>po</strong></div></div>
+  </div>
+</section>
+
+<!-- ===== COMBOS (YOON & SMALL TSU) ===== -->
+<section class="chapter" id="combos">
+  <div class="chapter-header">
+    <span class="chapter-num">Part 3</span>
+    <h2 class="chapter-title">Combinations &amp; Long Sounds</h2>
+  </div>
+  <p class="chapter-theme">Three rules that let you read almost any beginner word: yōon, small つ, and long vowels.</p>
+
+  <div class="subsection">
+    <div class="section-label">Rule 1 · Yōon</div>
+    <h3 class="section-h">Small や, ゆ, よ make blended sounds</h3>
+    <p style="color: var(--ink-soft); margin-bottom: 20px;">When a kana from the <strong>-i</strong> column (き, し, ち, etc.) is followed by a small <span class="jp" style="font-family:'Noto Serif JP',serif;color:var(--vermillion);">ゃ ゅ ょ</span>, they combine into one syllable.</p>
+  </div>
+
+  <div class="kana-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="kana-cell row-k"><div class="kana">きゃ</div><div class="romaji">kya</div></div>
+    <div class="kana-cell row-k"><div class="kana">きゅ</div><div class="romaji">kyu</div></div>
+    <div class="kana-cell row-k"><div class="kana">きょ</div><div class="romaji">kyo</div></div>
+    <div class="kana-cell row-s"><div class="kana">しゃ</div><div class="romaji">sha</div></div>
+    <div class="kana-cell row-s"><div class="kana">しゅ</div><div class="romaji">shu</div></div>
+    <div class="kana-cell row-s"><div class="kana">しょ</div><div class="romaji">sho</div></div>
+    <div class="kana-cell row-t"><div class="kana">ちゃ</div><div class="romaji">cha</div></div>
+    <div class="kana-cell row-t"><div class="kana">ちゅ</div><div class="romaji">chu</div></div>
+    <div class="kana-cell row-t"><div class="kana">ちょ</div><div class="romaji">cho</div></div>
+    <div class="kana-cell row-n"><div class="kana">にゃ</div><div class="romaji">nya</div></div>
+    <div class="kana-cell row-n"><div class="kana">にゅ</div><div class="romaji">nyu</div></div>
+    <div class="kana-cell row-n"><div class="kana">にょ</div><div class="romaji">nyo</div></div>
+    <div class="kana-cell row-h"><div class="kana">ひゃ</div><div class="romaji">hya</div></div>
+    <div class="kana-cell row-h"><div class="kana">ひゅ</div><div class="romaji">hyu</div></div>
+    <div class="kana-cell row-h"><div class="kana">ひょ</div><div class="romaji">hyo</div></div>
+    <div class="kana-cell row-m"><div class="kana">みゃ</div><div class="romaji">mya</div></div>
+    <div class="kana-cell row-m"><div class="kana">みゅ</div><div class="romaji">myu</div></div>
+    <div class="kana-cell row-m"><div class="kana">みょ</div><div class="romaji">myo</div></div>
+    <div class="kana-cell row-r"><div class="kana">りゃ</div><div class="romaji">rya</div></div>
+    <div class="kana-cell row-r"><div class="kana">りゅ</div><div class="romaji">ryu</div></div>
+    <div class="kana-cell row-r"><div class="kana">りょ</div><div class="romaji">ryo</div></div>
+    <div class="kana-cell row-k"><div class="kana">ぎゃ</div><div class="romaji">gya</div></div>
+    <div class="kana-cell row-k"><div class="kana">ぎゅ</div><div class="romaji">gyu</div></div>
+    <div class="kana-cell row-k"><div class="kana">ぎょ</div><div class="romaji">gyo</div></div>
+    <div class="kana-cell row-s"><div class="kana">じゃ</div><div class="romaji">ja</div></div>
+    <div class="kana-cell row-s"><div class="kana">じゅ</div><div class="romaji">ju</div></div>
+    <div class="kana-cell row-s"><div class="kana">じょ</div><div class="romaji">jo</div></div>
+    <div class="kana-cell row-h"><div class="kana">びゃ</div><div class="romaji">bya</div></div>
+    <div class="kana-cell row-h"><div class="kana">びゅ</div><div class="romaji">byu</div></div>
+    <div class="kana-cell row-h"><div class="kana">びょ</div><div class="romaji">byo</div></div>
+    <div class="kana-cell row-spec"><div class="kana">ぴゃ</div><div class="romaji">pya</div></div>
+    <div class="kana-cell row-spec"><div class="kana">ぴゅ</div><div class="romaji">pyu</div></div>
+    <div class="kana-cell row-spec"><div class="kana">ぴょ</div><div class="romaji">pyo</div></div>
+  </div>
+
+  <div class="tips">
+    <h4>Rule 2 · The small つ doubles the next consonant</h4>
+    <ul>
+      <li>A <strong>small <span class="jp">っ</span></strong> (different from regular つ) means hold a silent beat, then double the next consonant.</li>
+      <li><span class="jp">がっこう</span> → <strong>gakkou</strong> (school) — note the double "k"</li>
+      <li><span class="jp">きって</span> → <strong>kitte</strong> (stamp) — double "t"</li>
+      <li><span class="jp">いっぽん</span> → <strong>ippon</strong> (one [long object]) — double "p"</li>
+    </ul>
+  </div>
+
+  <div class="tips">
+    <h4>Rule 3 · Long vowels</h4>
+    <ul>
+      <li>Vowel sounds can be doubled by adding another vowel after the kana.</li>
+      <li><strong>aa</strong> → <span class="jp">ああ</span> ・ <strong>ii</strong> → <span class="jp">いい</span> ・ <strong>uu</strong> → <span class="jp">うう</span></li>
+      <li><strong>ee</strong> is usually written <span class="jp">えい</span>: <span class="jp">せんせい</span> = sensei (teacher)</li>
+      <li><strong>oo</strong> is usually written <span class="jp">おう</span>: <span class="jp">こうこう</span> = koukou (high school). Exceptions: <span class="jp">おおきい</span> ookii, <span class="jp">とおい</span> tooi.</li>
+      <li>The length matters! <span class="jp">おばさん</span> (obasan, aunt) vs <span class="jp">おばあさん</span> (obaasan, grandmother).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== TIPS ===== -->
+<section class="chapter" id="tips">
+  <div class="chapter-header">
+    <span class="chapter-num">Part 4</span>
+    <h2 class="chapter-title">How to Learn It Fast</h2>
+  </div>
+
+  <div class="tips">
+    <h4>A 7-day plan if you're truly starting from zero</h4>
+    <ul>
+      <li><strong>Day 1:</strong> a-row + ka-row (10 kana). Drill until you can read them in random order in under 5 seconds each.</li>
+      <li><strong>Day 2:</strong> sa-row + ta-row (10 more). Review day 1.</li>
+      <li><strong>Day 3:</strong> na-row + ha-row. Review days 1–2.</li>
+      <li><strong>Day 4:</strong> ma-row + ya-row + ra-row. Review everything.</li>
+      <li><strong>Day 5:</strong> wa-row + ん + dakuten/handakuten. You now know every basic kana.</li>
+      <li><strong>Day 6:</strong> yōon, small っ, long vowels. Start reading short words.</li>
+      <li><strong>Day 7:</strong> Practice with the flashcards in the section below.</li>
+    </ul>
+  </div>
+
+  <div class="tips">
+    <h4>Mistakes everyone makes</h4>
+    <ul>
+      <li><strong>Confusing <span class="jp">わ</span> wa and <span class="jp">れ</span> re and <span class="jp">ね</span> ne and <span class="jp">ぬ</span> nu.</strong> They all share a left-side spine. Look at the right side: <span class="jp">わ</span> is plain, <span class="jp">れ</span> has a hook out, <span class="jp">ね</span> is a loop, <span class="jp">ぬ</span> is a closed knot.</li>
+      <li><strong>Confusing <span class="jp">き</span> ki and <span class="jp">さ</span> sa.</strong> Mirror images of each other. ki has TWO horizontal lines, sa has ONE.</li>
+      <li><strong>Confusing <span class="jp">は</span> ha, <span class="jp">ほ</span> ho, <span class="jp">け</span> ke.</strong> Look at the bottom-right: ha is open, ho has an extra mark, ke has no extra at all.</li>
+      <li><strong>Forgetting that <span class="jp">は</span> is pronounced "wa" when used as the topic particle.</strong> Same for <span class="jp">へ</span> → "e" as the direction particle, <span class="jp">を</span> → "o" as the object particle.</li>
+      <li><strong>Skipping the long vowels.</strong> "おばさん" and "おばあさん" mean totally different things. Always count vowels.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== VOCABULARY ===== -->
+<section class="chapter" id="vocab">
+  <div class="chapter-header">
+    <span class="chapter-num">Part 5</span>
+    <h2 class="chapter-title">High-Frequency Vocabulary</h2>
+  </div>
+  <p class="chapter-theme">~130 words at the heart of every commercial N5 flashcard set. These are the words your professor's deck is most likely pulling from.</p>
+
+  <div class="vocab-grid">
+
+    <div class="vocab-card">
+      <h4>Animals <span class="count">8</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">いぬ</span><span class="ro">inu</span><span class="en">dog</span></li>
+        <li><span class="jp">ねこ</span><span class="ro">neko</span><span class="en">cat</span></li>
+        <li><span class="jp">とり</span><span class="ro">tori</span><span class="en">bird</span></li>
+        <li><span class="jp">さかな</span><span class="ro">sakana</span><span class="en">fish</span></li>
+        <li><span class="jp">うま</span><span class="ro">uma</span><span class="en">horse</span></li>
+        <li><span class="jp">うし</span><span class="ro">ushi</span><span class="en">cow</span></li>
+        <li><span class="jp">ぶた</span><span class="ro">buta</span><span class="en">pig</span></li>
+        <li><span class="jp">とら</span><span class="ro">tora</span><span class="en">tiger</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Food <span class="count">10</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">ごはん</span><span class="ro">gohan</span><span class="en">rice / meal</span></li>
+        <li><span class="jp">たまご</span><span class="ro">tamago</span><span class="en">egg</span></li>
+        <li><span class="jp">にく</span><span class="ro">niku</span><span class="en">meat</span></li>
+        <li><span class="jp">やさい</span><span class="ro">yasai</span><span class="en">vegetable</span></li>
+        <li><span class="jp">くだもの</span><span class="ro">kudamono</span><span class="en">fruit</span></li>
+        <li><span class="jp">りんご</span><span class="ro">ringo</span><span class="en">apple</span></li>
+        <li><span class="jp">みかん</span><span class="ro">mikan</span><span class="en">mandarin orange</span></li>
+        <li><span class="jp">すし</span><span class="ro">sushi</span><span class="en">sushi</span></li>
+        <li><span class="jp">そば</span><span class="ro">soba</span><span class="en">buckwheat noodles</span></li>
+        <li><span class="jp">うどん</span><span class="ro">udon</span><span class="en">udon noodles</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Drinks <span class="count">6</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">みず</span><span class="ro">mizu</span><span class="en">water</span></li>
+        <li><span class="jp">おちゃ</span><span class="ro">ocha</span><span class="en">tea / green tea</span></li>
+        <li><span class="jp">こうちゃ</span><span class="ro">koucha</span><span class="en">black tea</span></li>
+        <li><span class="jp">ぎゅうにゅう</span><span class="ro">gyuunyuu</span><span class="en">milk</span></li>
+        <li><span class="jp">おさけ</span><span class="ro">osake</span><span class="en">sake / alcohol</span></li>
+        <li><span class="jp">みず</span><span class="ro">mizu</span><span class="en">water</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Body <span class="count">8</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">あたま</span><span class="ro">atama</span><span class="en">head</span></li>
+        <li><span class="jp">かお</span><span class="ro">kao</span><span class="en">face</span></li>
+        <li><span class="jp">め</span><span class="ro">me</span><span class="en">eye</span></li>
+        <li><span class="jp">みみ</span><span class="ro">mimi</span><span class="en">ear</span></li>
+        <li><span class="jp">はな</span><span class="ro">hana</span><span class="en">nose / flower</span></li>
+        <li><span class="jp">くち</span><span class="ro">kuchi</span><span class="en">mouth</span></li>
+        <li><span class="jp">て</span><span class="ro">te</span><span class="en">hand</span></li>
+        <li><span class="jp">あし</span><span class="ro">ashi</span><span class="en">foot / leg</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Family <span class="count">8</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">かぞく</span><span class="ro">kazoku</span><span class="en">family</span></li>
+        <li><span class="jp">ちち</span><span class="ro">chichi</span><span class="en">father (own)</span></li>
+        <li><span class="jp">はは</span><span class="ro">haha</span><span class="en">mother (own)</span></li>
+        <li><span class="jp">あに</span><span class="ro">ani</span><span class="en">older brother</span></li>
+        <li><span class="jp">あね</span><span class="ro">ane</span><span class="en">older sister</span></li>
+        <li><span class="jp">おとうと</span><span class="ro">otouto</span><span class="en">younger brother</span></li>
+        <li><span class="jp">いもうと</span><span class="ro">imouto</span><span class="en">younger sister</span></li>
+        <li><span class="jp">こども</span><span class="ro">kodomo</span><span class="en">child</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Nature <span class="count">8</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">やま</span><span class="ro">yama</span><span class="en">mountain</span></li>
+        <li><span class="jp">かわ</span><span class="ro">kawa</span><span class="en">river</span></li>
+        <li><span class="jp">うみ</span><span class="ro">umi</span><span class="en">sea</span></li>
+        <li><span class="jp">そら</span><span class="ro">sora</span><span class="en">sky</span></li>
+        <li><span class="jp">ほし</span><span class="ro">hoshi</span><span class="en">star</span></li>
+        <li><span class="jp">つき</span><span class="ro">tsuki</span><span class="en">moon / month</span></li>
+        <li><span class="jp">ひ</span><span class="ro">hi</span><span class="en">sun / day / fire</span></li>
+        <li><span class="jp">き</span><span class="ro">ki</span><span class="en">tree</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Weather <span class="count">4</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">あめ</span><span class="ro">ame</span><span class="en">rain</span></li>
+        <li><span class="jp">ゆき</span><span class="ro">yuki</span><span class="en">snow</span></li>
+        <li><span class="jp">かぜ</span><span class="ro">kaze</span><span class="en">wind</span></li>
+        <li><span class="jp">はれ</span><span class="ro">hare</span><span class="en">sunny / clear</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Time <span class="count">8</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">あさ</span><span class="ro">asa</span><span class="en">morning</span></li>
+        <li><span class="jp">ひる</span><span class="ro">hiru</span><span class="en">noon / daytime</span></li>
+        <li><span class="jp">よる</span><span class="ro">yoru</span><span class="en">night</span></li>
+        <li><span class="jp">きょう</span><span class="ro">kyou</span><span class="en">today</span></li>
+        <li><span class="jp">あした</span><span class="ro">ashita</span><span class="en">tomorrow</span></li>
+        <li><span class="jp">きのう</span><span class="ro">kinou</span><span class="en">yesterday</span></li>
+        <li><span class="jp">いま</span><span class="ro">ima</span><span class="en">now</span></li>
+        <li><span class="jp">とき</span><span class="ro">toki</span><span class="en">time / when</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Days <span class="count">7</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">げつようび</span><span class="ro">getsuyoubi</span><span class="en">Monday</span></li>
+        <li><span class="jp">かようび</span><span class="ro">kayoubi</span><span class="en">Tuesday</span></li>
+        <li><span class="jp">すいようび</span><span class="ro">suiyoubi</span><span class="en">Wednesday</span></li>
+        <li><span class="jp">もくようび</span><span class="ro">mokuyoubi</span><span class="en">Thursday</span></li>
+        <li><span class="jp">きんようび</span><span class="ro">kinyoubi</span><span class="en">Friday</span></li>
+        <li><span class="jp">どようび</span><span class="ro">doyoubi</span><span class="en">Saturday</span></li>
+        <li><span class="jp">にちようび</span><span class="ro">nichiyoubi</span><span class="en">Sunday</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Numbers <span class="count">10</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">いち</span><span class="ro">ichi</span><span class="en">one</span></li>
+        <li><span class="jp">に</span><span class="ro">ni</span><span class="en">two</span></li>
+        <li><span class="jp">さん</span><span class="ro">san</span><span class="en">three</span></li>
+        <li><span class="jp">よん</span><span class="ro">yon / shi</span><span class="en">four</span></li>
+        <li><span class="jp">ご</span><span class="ro">go</span><span class="en">five</span></li>
+        <li><span class="jp">ろく</span><span class="ro">roku</span><span class="en">six</span></li>
+        <li><span class="jp">なな</span><span class="ro">nana / shichi</span><span class="en">seven</span></li>
+        <li><span class="jp">はち</span><span class="ro">hachi</span><span class="en">eight</span></li>
+        <li><span class="jp">きゅう</span><span class="ro">kyuu / ku</span><span class="en">nine</span></li>
+        <li><span class="jp">じゅう</span><span class="ro">juu</span><span class="en">ten</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Colors <span class="count">6</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">あか</span><span class="ro">aka</span><span class="en">red</span></li>
+        <li><span class="jp">あお</span><span class="ro">ao</span><span class="en">blue</span></li>
+        <li><span class="jp">しろ</span><span class="ro">shiro</span><span class="en">white</span></li>
+        <li><span class="jp">くろ</span><span class="ro">kuro</span><span class="en">black</span></li>
+        <li><span class="jp">きいろ</span><span class="ro">kiiro</span><span class="en">yellow</span></li>
+        <li><span class="jp">みどり</span><span class="ro">midori</span><span class="en">green</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Places <span class="count">10</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">いえ</span><span class="ro">ie</span><span class="en">house</span></li>
+        <li><span class="jp">うち</span><span class="ro">uchi</span><span class="en">home</span></li>
+        <li><span class="jp">がっこう</span><span class="ro">gakkou</span><span class="en">school</span></li>
+        <li><span class="jp">みせ</span><span class="ro">mise</span><span class="en">shop</span></li>
+        <li><span class="jp">えき</span><span class="ro">eki</span><span class="en">station</span></li>
+        <li><span class="jp">だいがく</span><span class="ro">daigaku</span><span class="en">university</span></li>
+        <li><span class="jp">としょかん</span><span class="ro">toshokan</span><span class="en">library</span></li>
+        <li><span class="jp">ぎんこう</span><span class="ro">ginkou</span><span class="en">bank</span></li>
+        <li><span class="jp">ゆうびんきょく</span><span class="ro">yuubinkyoku</span><span class="en">post office</span></li>
+        <li><span class="jp">へや</span><span class="ro">heya</span><span class="en">room</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Objects <span class="count">10</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">ほん</span><span class="ro">hon</span><span class="en">book</span></li>
+        <li><span class="jp">とけい</span><span class="ro">tokei</span><span class="en">clock / watch</span></li>
+        <li><span class="jp">いす</span><span class="ro">isu</span><span class="en">chair</span></li>
+        <li><span class="jp">つくえ</span><span class="ro">tsukue</span><span class="en">desk</span></li>
+        <li><span class="jp">かばん</span><span class="ro">kaban</span><span class="en">bag</span></li>
+        <li><span class="jp">かさ</span><span class="ro">kasa</span><span class="en">umbrella</span></li>
+        <li><span class="jp">くつ</span><span class="ro">kutsu</span><span class="en">shoes</span></li>
+        <li><span class="jp">かみ</span><span class="ro">kami</span><span class="en">paper / hair</span></li>
+        <li><span class="jp">えんぴつ</span><span class="ro">enpitsu</span><span class="en">pencil</span></li>
+        <li><span class="jp">でんわ</span><span class="ro">denwa</span><span class="en">telephone</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Verbs (-masu form) <span class="count">10</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">たべます</span><span class="ro">tabemasu</span><span class="en">to eat</span></li>
+        <li><span class="jp">のみます</span><span class="ro">nomimasu</span><span class="en">to drink</span></li>
+        <li><span class="jp">みます</span><span class="ro">mimasu</span><span class="en">to see / watch</span></li>
+        <li><span class="jp">ききます</span><span class="ro">kikimasu</span><span class="en">to listen</span></li>
+        <li><span class="jp">よみます</span><span class="ro">yomimasu</span><span class="en">to read</span></li>
+        <li><span class="jp">かきます</span><span class="ro">kakimasu</span><span class="en">to write</span></li>
+        <li><span class="jp">かいます</span><span class="ro">kaimasu</span><span class="en">to buy</span></li>
+        <li><span class="jp">いきます</span><span class="ro">ikimasu</span><span class="en">to go</span></li>
+        <li><span class="jp">きます</span><span class="ro">kimasu</span><span class="en">to come</span></li>
+        <li><span class="jp">します</span><span class="ro">shimasu</span><span class="en">to do</span></li>
+      </ul>
+    </div>
+
+    <div class="vocab-card">
+      <h4>Adjectives <span class="count">8</span></h4>
+      <ul class="vocab-list">
+        <li><span class="jp">おおきい</span><span class="ro">ookii</span><span class="en">big</span></li>
+        <li><span class="jp">ちいさい</span><span class="ro">chiisai</span><span class="en">small</span></li>
+        <li><span class="jp">あつい</span><span class="ro">atsui</span><span class="en">hot</span></li>
+        <li><span class="jp">さむい</span><span class="ro">samui</span><span class="en">cold</span></li>
+        <li><span class="jp">おいしい</span><span class="ro">oishii</span><span class="en">delicious</span></li>
+        <li><span class="jp">たかい</span><span class="ro">takai</span><span class="en">tall / expensive</span></li>
+        <li><span class="jp">やすい</span><span class="ro">yasui</span><span class="en">cheap</span></li>
+        <li><span class="jp">あたらしい</span><span class="ro">atarashii</span><span class="en">new</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== FLASHCARDS ===== -->
+<section class="chapter" id="flashcards">
+  <div class="chapter-header">
+    <span class="chapter-num">Part 6</span>
+    <h2 class="chapter-title">Flashcard Practice</h2>
+  </div>
+  <p class="chapter-theme">The actual exam simulation. See the hiragana, say the romaji + English in your head, then tap to check.</p>
+
+  <div class="flashcard-wrap">
+    <div class="section-label">Live drill</div>
+    <h3>Tap the card to flip</h3>
+    <p class="intro">Read the word in your head, say it out loud, give the meaning, then tap to check. Be honest with the "Knew it" / "Missed it" buttons — that's how you find your weak spots.</p>
+
+    <div class="fc-controls">
+      <label>Category</label>
+      <select id="cat-select">
+        <option value="all">All categories</option>
+        <option value="animal">Animals</option>
+        <option value="food">Food</option>
+        <option value="drink">Drinks</option>
+        <option value="body">Body</option>
+        <option value="family">Family</option>
+        <option value="nature">Nature</option>
+        <option value="weather">Weather</option>
+        <option value="time">Time</option>
+        <option value="day">Days</option>
+        <option value="number">Numbers</option>
+        <option value="color">Colors</option>
+        <option value="place">Places</option>
+        <option value="object">Objects</option>
+        <option value="verb">Verbs</option>
+        <option value="adj">Adjectives</option>
+      </select>
+
+      <label>Mode</label>
+      <select id="mode-select">
+        <option value="jp-en">Hiragana → English (exam mode)</option>
+        <option value="en-jp">English → Hiragana (reverse)</option>
+      </select>
+
+      <button class="btn-primary" id="shuffle-btn">⟳ Shuffle &amp; Restart</button>
+      <button id="missed-only-btn">Drill missed only</button>
+    </div>
+
+    <div class="fc-card" id="fc-card" onclick="flipCard()">
+      <div class="fc-front">
+        <div class="fc-jp" id="fc-jp">…</div>
+        <div class="fc-hint">tap to reveal</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-ro" id="fc-ro">…</div>
+        <div class="fc-en" id="fc-en">…</div>
+        <div class="fc-jp-small" id="fc-jp-small">…</div>
+      </div>
+    </div>
+
+    <div class="fc-answer-row" id="fc-answer-row" style="display:none;">
+      <button class="fc-btn-knew" onclick="answer(true)">✓ Knew it</button>
+      <button class="fc-btn-missed" onclick="answer(false)">✗ Missed it</button>
+      <button class="fc-btn-skip" onclick="next()">Skip →</button>
+    </div>
+
+    <div class="fc-progress">
+      <div class="stat">Card <strong id="stat-current">0</strong> / <strong id="stat-total">0</strong></div>
+      <div class="stat know">Knew <strong id="stat-knew">0</strong></div>
+      <div class="stat unsure">Missed <strong id="stat-missed">0</strong></div>
+    </div>
+
+    <div class="fc-keyhint">
+      <kbd>Space</kbd> flip · <kbd>K</kbd> knew it · <kbd>M</kbd> missed it · <kbd>→</kbd> skip
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  A study companion · Hiragana &amp; common N5 vocabulary<br>
+  Trust the process. <em>がんばって!</em>
+</footer>
+
+<script>
+// ===== FLASHCARD DATA =====
+const DECK = [
+  // animals
+  { jp: 'いぬ', ro: 'inu', en: 'dog', cat: 'animal' },
+  { jp: 'ねこ', ro: 'neko', en: 'cat', cat: 'animal' },
+  { jp: 'とり', ro: 'tori', en: 'bird', cat: 'animal' },
+  { jp: 'さかな', ro: 'sakana', en: 'fish', cat: 'animal' },
+  { jp: 'うま', ro: 'uma', en: 'horse', cat: 'animal' },
+  { jp: 'うし', ro: 'ushi', en: 'cow', cat: 'animal' },
+  { jp: 'ぶた', ro: 'buta', en: 'pig', cat: 'animal' },
+  { jp: 'とら', ro: 'tora', en: 'tiger', cat: 'animal' },
+
+  // food
+  { jp: 'ごはん', ro: 'gohan', en: 'rice / meal', cat: 'food' },
+  { jp: 'たまご', ro: 'tamago', en: 'egg', cat: 'food' },
+  { jp: 'にく', ro: 'niku', en: 'meat', cat: 'food' },
+  { jp: 'やさい', ro: 'yasai', en: 'vegetable', cat: 'food' },
+  { jp: 'くだもの', ro: 'kudamono', en: 'fruit', cat: 'food' },
+  { jp: 'りんご', ro: 'ringo', en: 'apple', cat: 'food' },
+  { jp: 'みかん', ro: 'mikan', en: 'mandarin orange', cat: 'food' },
+  { jp: 'すし', ro: 'sushi', en: 'sushi', cat: 'food' },
+  { jp: 'そば', ro: 'soba', en: 'buckwheat noodles', cat: 'food' },
+  { jp: 'うどん', ro: 'udon', en: 'udon noodles', cat: 'food' },
+
+  // drinks
+  { jp: 'みず', ro: 'mizu', en: 'water', cat: 'drink' },
+  { jp: 'おちゃ', ro: 'ocha', en: 'green tea', cat: 'drink' },
+  { jp: 'こうちゃ', ro: 'koucha', en: 'black tea', cat: 'drink' },
+  { jp: 'ぎゅうにゅう', ro: 'gyuunyuu', en: 'milk', cat: 'drink' },
+  { jp: 'おさけ', ro: 'osake', en: 'sake / alcohol', cat: 'drink' },
+
+  // body
+  { jp: 'あたま', ro: 'atama', en: 'head', cat: 'body' },
+  { jp: 'かお', ro: 'kao', en: 'face', cat: 'body' },
+  { jp: 'め', ro: 'me', en: 'eye', cat: 'body' },
+  { jp: 'みみ', ro: 'mimi', en: 'ear', cat: 'body' },
+  { jp: 'はな', ro: 'hana', en: 'nose / flower', cat: 'body' },
+  { jp: 'くち', ro: 'kuchi', en: 'mouth', cat: 'body' },
+  { jp: 'て', ro: 'te', en: 'hand', cat: 'body' },
+  { jp: 'あし', ro: 'ashi', en: 'foot / leg', cat: 'body' },
+
+  // family
+  { jp: 'かぞく', ro: 'kazoku', en: 'family', cat: 'family' },
+  { jp: 'ちち', ro: 'chichi', en: 'father (own)', cat: 'family' },
+  { jp: 'はは', ro: 'haha', en: 'mother (own)', cat: 'family' },
+  { jp: 'あに', ro: 'ani', en: 'older brother', cat: 'family' },
+  { jp: 'あね', ro: 'ane', en: 'older sister', cat: 'family' },
+  { jp: 'おとうと', ro: 'otouto', en: 'younger brother', cat: 'family' },
+  { jp: 'いもうと', ro: 'imouto', en: 'younger sister', cat: 'family' },
+  { jp: 'こども', ro: 'kodomo', en: 'child', cat: 'family' },
+
+  // nature
+  { jp: 'やま', ro: 'yama', en: 'mountain', cat: 'nature' },
+  { jp: 'かわ', ro: 'kawa', en: 'river', cat: 'nature' },
+  { jp: 'うみ', ro: 'umi', en: 'sea', cat: 'nature' },
+  { jp: 'そら', ro: 'sora', en: 'sky', cat: 'nature' },
+  { jp: 'ほし', ro: 'hoshi', en: 'star', cat: 'nature' },
+  { jp: 'つき', ro: 'tsuki', en: 'moon / month', cat: 'nature' },
+  { jp: 'ひ', ro: 'hi', en: 'sun / day', cat: 'nature' },
+  { jp: 'き', ro: 'ki', en: 'tree', cat: 'nature' },
+
+  // weather
+  { jp: 'あめ', ro: 'ame', en: 'rain', cat: 'weather' },
+  { jp: 'ゆき', ro: 'yuki', en: 'snow', cat: 'weather' },
+  { jp: 'かぜ', ro: 'kaze', en: 'wind', cat: 'weather' },
+  { jp: 'はれ', ro: 'hare', en: 'sunny / clear', cat: 'weather' },
+
+  // time
+  { jp: 'あさ', ro: 'asa', en: 'morning', cat: 'time' },
+  { jp: 'ひる', ro: 'hiru', en: 'noon', cat: 'time' },
+  { jp: 'よる', ro: 'yoru', en: 'night', cat: 'time' },
+  { jp: 'きょう', ro: 'kyou', en: 'today', cat: 'time' },
+  { jp: 'あした', ro: 'ashita', en: 'tomorrow', cat: 'time' },
+  { jp: 'きのう', ro: 'kinou', en: 'yesterday', cat: 'time' },
+  { jp: 'いま', ro: 'ima', en: 'now', cat: 'time' },
+  { jp: 'とき', ro: 'toki', en: 'time / when', cat: 'time' },
+
+  // days
+  { jp: 'げつようび', ro: 'getsuyoubi', en: 'Monday', cat: 'day' },
+  { jp: 'かようび', ro: 'kayoubi', en: 'Tuesday', cat: 'day' },
+  { jp: 'すいようび', ro: 'suiyoubi', en: 'Wednesday', cat: 'day' },
+  { jp: 'もくようび', ro: 'mokuyoubi', en: 'Thursday', cat: 'day' },
+  { jp: 'きんようび', ro: 'kinyoubi', en: 'Friday', cat: 'day' },
+  { jp: 'どようび', ro: 'doyoubi', en: 'Saturday', cat: 'day' },
+  { jp: 'にちようび', ro: 'nichiyoubi', en: 'Sunday', cat: 'day' },
+
+  // numbers
+  { jp: 'いち', ro: 'ichi', en: 'one', cat: 'number' },
+  { jp: 'に', ro: 'ni', en: 'two', cat: 'number' },
+  { jp: 'さん', ro: 'san', en: 'three', cat: 'number' },
+  { jp: 'よん', ro: 'yon', en: 'four', cat: 'number' },
+  { jp: 'ご', ro: 'go', en: 'five', cat: 'number' },
+  { jp: 'ろく', ro: 'roku', en: 'six', cat: 'number' },
+  { jp: 'なな', ro: 'nana', en: 'seven', cat: 'number' },
+  { jp: 'はち', ro: 'hachi', en: 'eight', cat: 'number' },
+  { jp: 'きゅう', ro: 'kyuu', en: 'nine', cat: 'number' },
+  { jp: 'じゅう', ro: 'juu', en: 'ten', cat: 'number' },
+
+  // colors
+  { jp: 'あか', ro: 'aka', en: 'red', cat: 'color' },
+  { jp: 'あお', ro: 'ao', en: 'blue', cat: 'color' },
+  { jp: 'しろ', ro: 'shiro', en: 'white', cat: 'color' },
+  { jp: 'くろ', ro: 'kuro', en: 'black', cat: 'color' },
+  { jp: 'きいろ', ro: 'kiiro', en: 'yellow', cat: 'color' },
+  { jp: 'みどり', ro: 'midori', en: 'green', cat: 'color' },
+
+  // places
+  { jp: 'いえ', ro: 'ie', en: 'house', cat: 'place' },
+  { jp: 'うち', ro: 'uchi', en: 'home', cat: 'place' },
+  { jp: 'がっこう', ro: 'gakkou', en: 'school', cat: 'place' },
+  { jp: 'みせ', ro: 'mise', en: 'shop', cat: 'place' },
+  { jp: 'えき', ro: 'eki', en: 'station', cat: 'place' },
+  { jp: 'だいがく', ro: 'daigaku', en: 'university', cat: 'place' },
+  { jp: 'としょかん', ro: 'toshokan', en: 'library', cat: 'place' },
+  { jp: 'ぎんこう', ro: 'ginkou', en: 'bank', cat: 'place' },
+  { jp: 'ゆうびんきょく', ro: 'yuubinkyoku', en: 'post office', cat: 'place' },
+  { jp: 'へや', ro: 'heya', en: 'room', cat: 'place' },
+
+  // objects
+  { jp: 'ほん', ro: 'hon', en: 'book', cat: 'object' },
+  { jp: 'とけい', ro: 'tokei', en: 'clock / watch', cat: 'object' },
+  { jp: 'いす', ro: 'isu', en: 'chair', cat: 'object' },
+  { jp: 'つくえ', ro: 'tsukue', en: 'desk', cat: 'object' },
+  { jp: 'かばん', ro: 'kaban', en: 'bag', cat: 'object' },
+  { jp: 'かさ', ro: 'kasa', en: 'umbrella', cat: 'object' },
+  { jp: 'くつ', ro: 'kutsu', en: 'shoes', cat: 'object' },
+  { jp: 'かみ', ro: 'kami', en: 'paper / hair', cat: 'object' },
+  { jp: 'えんぴつ', ro: 'enpitsu', en: 'pencil', cat: 'object' },
+  { jp: 'でんわ', ro: 'denwa', en: 'telephone', cat: 'object' },
+
+  // verbs
+  { jp: 'たべます', ro: 'tabemasu', en: 'to eat', cat: 'verb' },
+  { jp: 'のみます', ro: 'nomimasu', en: 'to drink', cat: 'verb' },
+  { jp: 'みます', ro: 'mimasu', en: 'to see / watch', cat: 'verb' },
+  { jp: 'ききます', ro: 'kikimasu', en: 'to listen', cat: 'verb' },
+  { jp: 'よみます', ro: 'yomimasu', en: 'to read', cat: 'verb' },
+  { jp: 'かきます', ro: 'kakimasu', en: 'to write', cat: 'verb' },
+  { jp: 'かいます', ro: 'kaimasu', en: 'to buy', cat: 'verb' },
+  { jp: 'いきます', ro: 'ikimasu', en: 'to go', cat: 'verb' },
+  { jp: 'きます', ro: 'kimasu', en: 'to come', cat: 'verb' },
+  { jp: 'します', ro: 'shimasu', en: 'to do', cat: 'verb' },
+
+  // adjectives
+  { jp: 'おおきい', ro: 'ookii', en: 'big', cat: 'adj' },
+  { jp: 'ちいさい', ro: 'chiisai', en: 'small', cat: 'adj' },
+  { jp: 'あつい', ro: 'atsui', en: 'hot', cat: 'adj' },
+  { jp: 'さむい', ro: 'samui', en: 'cold', cat: 'adj' },
+  { jp: 'おいしい', ro: 'oishii', en: 'delicious', cat: 'adj' },
+  { jp: 'たかい', ro: 'takai', en: 'tall / expensive', cat: 'adj' },
+  { jp: 'やすい', ro: 'yasui', en: 'cheap', cat: 'adj' },
+  { jp: 'あたらしい', ro: 'atarashii', en: 'new', cat: 'adj' },
+];
+
+// ===== STATE =====
+let deck = [];
+let idx = 0;
+let knew = 0;
+let missed = 0;
+let missedCards = [];
+let mode = 'jp-en';
+let revealed = false;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function buildDeck(missedOnly = false) {
+  const cat = document.getElementById('cat-select').value;
+  mode = document.getElementById('mode-select').value;
+  let source = DECK;
+  if (cat !== 'all') source = source.filter(c => c.cat === cat);
+  if (missedOnly && missedCards.length > 0) source = missedCards.slice();
+  deck = shuffle(source.slice());
+  idx = 0;
+  knew = 0;
+  missed = 0;
+  if (!missedOnly) missedCards = [];
+  revealed = false;
+  render();
+}
+
+function render() {
+  const card = document.getElementById('fc-card');
+  const answerRow = document.getElementById('fc-answer-row');
+
+  if (deck.length === 0) {
+    document.getElementById('fc-jp').textContent = '(no cards)';
+    document.getElementById('stat-current').textContent = 0;
+    document.getElementById('stat-total').textContent = 0;
+    return;
+  }
+
+  if (idx >= deck.length) {
+    // session complete
+    card.classList.remove('revealed', 'mode-reverse');
+    document.getElementById('fc-jp').innerHTML =
+      `🎉<br><span style="font-size:.45em;font-family:'Fraunces',serif;font-style:italic;color:var(--ink-mute)">Session complete</span><br>` +
+      `<span style="font-size:.32em;color:var(--ink-mute);font-family:'Manrope',sans-serif">Knew ${knew} · Missed ${missed}</span>`;
+    document.getElementById('fc-jp').style.fontFamily = 'serif';
+    answerRow.style.display = 'none';
+    document.getElementById('stat-current').textContent = deck.length;
+    document.getElementById('stat-total').textContent = deck.length;
+    return;
+  }
+
+  const c = deck[idx];
+  card.classList.remove('revealed');
+  if (mode === 'en-jp') {
+    card.classList.add('mode-reverse');
+    document.getElementById('fc-jp').textContent = c.en;
+    document.getElementById('fc-ro').textContent = c.ro;
+    document.getElementById('fc-en').textContent = c.en;
+    document.getElementById('fc-jp-small').textContent = c.jp;
+  } else {
+    card.classList.remove('mode-reverse');
+    document.getElementById('fc-jp').textContent = c.jp;
+    document.getElementById('fc-jp').style.fontFamily = "'Noto Serif JP', serif";
+    document.getElementById('fc-ro').textContent = c.ro;
+    document.getElementById('fc-en').textContent = c.en;
+    document.getElementById('fc-jp-small').textContent = c.jp;
+  }
+  answerRow.style.display = 'none';
+  revealed = false;
+
+  document.getElementById('stat-current').textContent = idx + 1;
+  document.getElementById('stat-total').textContent = deck.length;
+  document.getElementById('stat-knew').textContent = knew;
+  document.getElementById('stat-missed').textContent = missed;
+}
+
+function flipCard() {
+  if (idx >= deck.length || deck.length === 0) return;
+  const card = document.getElementById('fc-card');
+  card.classList.toggle('revealed');
+  revealed = card.classList.contains('revealed');
+  document.getElementById('fc-answer-row').style.display = revealed ? 'flex' : 'none';
+}
+
+function answer(correct) {
+  if (!revealed) return;
+  if (correct) knew++;
+  else {
+    missed++;
+    if (!missedCards.find(c => c.jp === deck[idx].jp)) {
+      missedCards.push(deck[idx]);
+    }
+  }
+  idx++;
+  render();
+}
+
+function next() {
+  idx++;
+  render();
+}
+
+// keyboard
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'SELECT') return;
+  if (e.key === ' ') { e.preventDefault(); flipCard(); }
+  else if (e.key === 'k' || e.key === 'K') { if (revealed) answer(true); }
+  else if (e.key === 'm' || e.key === 'M') { if (revealed) answer(false); }
+  else if (e.key === 'ArrowRight') next();
+});
+
+document.getElementById('shuffle-btn').addEventListener('click', () => buildDeck(false));
+document.getElementById('missed-only-btn').addEventListener('click', () => {
+  if (missedCards.length === 0) {
+    alert('No missed cards yet. Mark some as "Missed it" first.');
+    return;
+  }
+  buildDeck(true);
+});
+document.getElementById('cat-select').addEventListener('change', () => buildDeck(false));
+document.getElementById('mode-select').addEventListener('change', () => buildDeck(false));
+
+// init
+buildDeck(false);
+
+// nav active link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+function updateActive() {
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if (top < 150) current = sec.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateActive);
+updateActive();
+</script>
+
+</body>
+</html>
